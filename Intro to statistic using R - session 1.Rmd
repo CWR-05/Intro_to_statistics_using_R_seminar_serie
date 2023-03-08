@@ -1,0 +1,817 @@
+# Introduction to statistics using R - Session 1
+
+## Descriptive statistics - R Intermissions 1 and 2
+
+##### Author: Chloé Warret Rodrigues
+
+##### 2023-03-08
+
+In this file, you will find some code to summarize and describe your data with number (we will get into graphs in a few sessions). Some of the code used is more advance than you need at this stage, so I will signal the code you can ignore with an "Advanced"/"End of Advanced" tag. However, if you are interested in understanding these extra code bits, they will be annotated like the rest.
+
+With that said, let's begin. First, install some packages
+
+```{r}
+#install.package(dplyr)
+#install.package(tidyr)
+#install.package(ggpubr)
+```
+
+N.B.: I've used a \# in front of the install.packages code, because this package is already installed on my computer. If I run it, it will just ask me to restart R because the package is loaded.
+
+RStudio tip: Note that, alternatively, you can install a package in Rstudio easily by going on the Packages tab of the bottom-right pane, click Install, and write the packages you need.
+
+And load the newly installed packages in R: the command library indicate to R that we are loading the packages, so that their diverse function become readily available for us to use. Base R has many basic commands to describe, plot and analyze your data, but some very smart people create packages with functions that can make your life easier, apply calculation that are less common, or apply new statistical methods that are being developed.
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggpubr)
+```
+
+### Measuring the central tendency of a data set
+
+Now, we'll gonna play in R with the different parameters we talked about, that describe the location or central tendency of your data. We will see three different examples of data with different shapes and behaviors. So, our first step will be to generate data.
+
+### A. Continuous normally distributed variables
+
+##### We'll start easy: continuous normal data
+
+Let's pretend we've measured the wing span of 15,000 birds of prey
+
+### 💪 Advanced
+
+Here, we imagine a **population** (i.e., a specific collection of objects of interest) which true average wingspan is 95.2cm with a standard deviation of 20.7cm. We'll take a (huge) **sample** (i.e., a subse of the population) of 15,000 birds.
+
+NB.: When the sample consists of the whole population, it is termed a census.
+
+```{r}
+set.seed(12) #allows replication
+df<- as.data.frame(rnorm(n = 15000, mean = 95.2, sd = 20.7)) #create a dataframe
+colnames(df)[1] <- "wing_span" #rename the column "wing span"
+```
+
+🍀Useful tip: set.seed is a function that ensures reproducibility. Whenever your functions involve randomness (like randomly generating data), if you use the same number, you will generate the same random values at each run.
+
+then, we told R that we want to create a dataframe "df" with the as.data.frame function (because with just 1 column of data R would by default create a Vector), with 15,000 data points drawn from a normal distribution (rnorm), centered on 95.2 (population mean) with a standard deviation of 20.7.
+
+The last line indicates to R that we want the unique column of df to be named "wing_span"
+
+### End of Advanced 💪
+
+#### 1. The mean and median
+
+Let's check what our data look like. We will add the mean, and the median to the plot
+
+```{r}
+ggdensity(df, x = "wing_span",
+          add = "mean", rug = F)
+ggdensity(df, x = "wing_span",
+          add = "median", rug = F)
+```
+
+As I said above, we will get into proper plotting later. For now, we asked a density plot of the data (which shows how they are distributed). In the first command, we added the mean, and in the second, the median. Note how mean and median are the same.
+
+Now, let's get the numerical value of the mean and of the median. Base R conveniently has very easy function to get them
+
+```{r}
+mean(df$wing_span)
+median(df$wing_span)
+```
+
+See how mean and median are the same when we are close to a perfect normal distribution?
+
+#### 2. The geometric mean
+
+Here, there is no base function. So, we'll simply apply the formula I showed you in the slides
+
+```{r}
+gm<-exp(mean(log(df$wing_span)))
+print(gm)
+gm
+```
+
+We created a "vector" (gm) to store the quantity of interest, here our geometric mean. We also used 2 bits of code to display the value of our vector: the print function, and simply writing the name of our vector. There are almost always more than 1 way to get R to do something, but we'll come back to that in another session.
+
+Notice how the geometric mean is a bit smaller than the arithmetic mean. It's a useful feature when your distribution is right-skewed, because it is closer to the more likely values your variable can take.
+
+You could also calculate you geometric mean by hand, but only if you have small data sets. See below:
+
+```{r}
+vect<-c(10000,12000,11000,11500,9000,12500,10500,11000,13000,12500)
+N=length(vect)
+prod<-prod(vect)
+GM=prod^(1/N)
+GM1 = prod(vect)^(1/(length(vect)))
+gm<-exp(mean(log(vect)))
+
+```
+
+Step 1: we created a short vector. As I said above, this method would not work with our 15,000 long sample data set. Step 2: 🍀 length is a useful function that gets the number of sample in your data set. We store that information in a vector called N. Notice how you can indifferently use = or \<- to define an R object. Step 3: we calculate the product of all values and store it in a vector called "prod". Step 4: we calculate the geometric mean. GM1 is an alternative way of writing the formula skipping the creation of vectors N and prod. gm uses the same method as previously to calculate the geometric mean: you can verify that they give the exact same result.
+
+#### 3. The harmonic mean
+
+Reminder: the harmonic mean is the reciprocal of the mean of the reciprocals: n/(1/x1 + 1/x2+...+1/xn), and that would be particularly painful to calculate that by hand with n = 15,000!
+
+So, here is the magic of R: you get access to functions either in base R or in packages that will do the painful work for you. We'll use package psych.
+
+```{r}
+#install.packages("psych")
+library(psych)
+```
+
+N.B.: I've used a \# in front of the install.packages code, because this package is already installed on my computer. If I run it, it will just ask me to restart R because the package is loaded.
+
+🍀 Useful tip: If you want R to ignore a line of code just use \# at the beginning of the line. If you're code bit spans multiple lines, you have to add \# at the beginning of each line.
+
+```{r}
+harmonic.mean(df$wing_span)
+print(hm<- harmonic.mean(df$wing_span))
+```
+
+Here, we used the function harmonic.mean from package psych, stored it in a vector called hm, and in the same line of code asked R to display it in the R console (bottom-left pane)
+
+##### Before we switch to a different type of distribution (we'll produce data with a different shape), let's check how the size of the data set affects the estimates of central tendency.
+
+```{r}
+set.seed(213) # for reproducible example
+x<- rnorm(n = 15, mean = 95.2, sd = 20.7)
+mean(x)
+median(x)
+mean(x)-median(x)
+
+set.seed(12)
+x1<- rnorm(n = 300, mean = 95.2, sd = 20.7)
+mean(x1)
+median(x1)
+mean(x1)-median(x1)
+
+set.seed(12)
+x2<- rnorm(n = 150000, mean = 95.2, sd = 20.7)
+mean(x2)
+median(x2)
+mean(x2)-median(x2)
+```
+
+We simulated 3 data set (the vectors x, x1 nd x2) representing the exact same population (represented by a normal distribution of mean = 95.2 and sd = 20.7). In the first case, we collected only 15 samples, while we got 300 sample in the second case, and 150,000 samples in the third case.
+
+Notice also how the sample size affects median and mean: the smaller the sample size, the further we are from the true population mean, and the further apart the mean and the median are. So, the smaller the sample size is, the harder it will be to determine from what distribution (shape, mean, SD) the data came from.
+
+### B. Continuous right-skewed variables
+
+##### Now, we'll complicate things a bit
+
+Let's pretend we've measured marten home range area. Home range area data sets are often right skewed.
+
+### 💪 Advanced
+
+```{r}
+set.seed(123)
+df2<-as.data.frame(rlnorm(1500, log(10), log(2.5)))
+colnames(df2)[1] <- "log_area"
+```
+
+Like before, we simulate a data set, this time with 1,500 entries, but our data follows a lognormal distribution, i.e., the data is right skewed.
+
+### End of Advanced 💪
+
+#### 1. The mean and median
+
+Like before, we will make a density plot of our data, and get the numerical value of our mean and median.
+
+```{r}
+ggdensity(df2, x = "log_area",
+          add = "mean", rug = F)
+ggdensity(df2, x = "log_area",
+          add = "median", rug = F)
+
+mean(df2$log_area)
+median(df2$log_area)
+```
+
+See now, how mean and median differ when the distribution is skewed.
+
+### C. Discrete variables
+
+Count data are an example of discrete data. Let's pretend here, that we are counting the number of some parasites on slides.
+
+### 💪 Advanced
+
+We will generate a vector to store our data, and display a summary table with how many occurrence of each count we have.
+
+```{r}
+y <- rpois(n = 500, lambda = 4)
+print(tb<-table(y))
+```
+
+### End of Advanced 💪
+
+Let's plot our data. (we need to summarize the data to make a barplot, hence we use the function table which produces the frequency of count data).
+
+#### 1. The mean and median
+
+```{r}
+barplot(table(y))
+mean(y)
+median(y)
+```
+
+#### 1. The mode
+
+There is no function to get the mode in base R. So, we will need to find other ways to get it: we can create our own function (advanced) or simply use a function from a package.
+
+### 💪 Advanced
+
+```{r}
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+Mode(y)
+```
+
+Here, we created our own function to get the mode. We call that function, wait for it... "Mode".
+
+The function unique will isolate each value our variable can take. The function which.max will return the location of the first maximum value in a vector. The tabulate function counts the number of occurrences of an integer value in a vector, counting also the "missing" values (for ex., if you have 1,2,3,5, tabulate will also indicate that 4 appears 0 time). The match function returns the index position of the first matching elements of the first vector in the second vector.
+
+So what did we do here? We first isolated each count value that appear in x (which is the generic name of the vector on which the function will be applied, and which we will replace with the name of our vector), in the order they appear in a and called it ux. We, then, counted in x the number of occurrences of each unique count value (stored in ux; that's why we need to match ux and x). In the same line we ask which is the maximum frequency for each unique value of our vector.
+
+Finally, now that we have defined our function, we apply it to y. And it tells us that 4 is the most common value!
+
+##### Now, let's complicate thing even more! We'll play with bimodal distributions.
+
+First, let's create a bimodal dataset based on lognormal (so continuous) distributions. We will first define every element we will need to generate the data.
+
+```{r}
+mu1 <- log(1)   #first mean
+mu2 <- log(1000) #second mean, needs to be way different
+sig1 <- log(3) #sd of the first peak
+sig2 <- log(3) #sd of the second peak
+cpct <- 0.5   #that's just a probability value used to allocate values with a Bernoulli trial
+
+```
+
+Now we'll create the data using a function with all the parameters defined above and n (sample size). We will call our function bimodalDistFunc
+
+```{r}
+bimodalDistFunc <- function (n,cpct, mu1, mu2, sig1, sig2) {
+  y0 <- rlnorm(n,mean=mu1, sd = sig1)  #apply a lognormal distribution
+  y1 <- rlnorm(n,mean=mu2, sd = sig2)
+  
+  flag <- rbinom(n,size=1,prob=cpct) #here is the Bernoulli trial, split each of n sample with 1 coin flip and probability 0.5
+  y <- y0*(1 - flag) + y1*flag #so that 0.5 of n belongs to y0 and 0.5 to y1
+}
+
+```
+
+And now we can apply the function to create a bimodal data set we will call bimodalnorm.
+
+```{r}
+bimodalnorm <- bimodalDistFunc(n=10000,cpct,mu1,mu2, sig1,sig2)
+hist(log(bimodalnorm))
+
+```
+
+We created 10,000 data points that will be split around the 2 modes, and plot a histogram of these data.
+
+Just for fun (and so that you see it works with discrete data), let's create a bimodal data set based on 2 Poisson distributions.
+
+```{r}
+lambda1 <- 5
+lambda2 <- 20   
+cpct <- 0.5   #probability of 0.5
+```
+
+The Poisson distribution is a simple one (we'll see that later), the only parameter we need to define it is lambda, because the variance is equal to the mean in this distribution. So we define our 2 lambdas, and like before the probability value to decide how to assign a randomly generated value to one of the Poisson distribution (here, each value has an equal chance to be assigned to each distribution, 0.5).
+
+```{r}
+bimodalDistFunc2 <- function (n,cpct, lambda1, lambda2) {
+  y0 <- rpois(n,lambda = lambda1)
+  y1 <- rpois(n,lambda = lambda2)
+  
+  flag <- rbinom(n,size=1,prob=cpct)
+  y <- y0*(1 - flag) + y1*flag 
+}
+
+bimodalpois <- bimodalDistFunc2(n=10000,cpct, lambda1, lambda2)
+table(bimodalpois)
+barplot(table(bimodalpois))
+```
+
+And just like for the double-lognormal distribution, we create a double Poisson. We generate 10,000 data points that should be equally split between each distributiom, and we'll summarize the frequency of our values using table. Finally we visualize it with a barplot.
+
+### End of Advanced 💪
+
+Ok, now that we have our fake data sets, unimodal (y), and the 2 bimodals (bimodalnorm and bimodalpoiss), we'll get the mode(s) in each of them.
+
+I showed you how to get a mode with a home-made function in the "advanced" section, but we can simply use packages too 😉
+
+First, the unimodal.
+
+```{r}
+library(modeest) #install it if not done
+mlv(y)
+```
+
+Now, the bimodal data sets. Here, we will need specific packages capable of dealing with bimodality. The mlv function won't work, because it's design for unimodal data sets:
+
+```{r}
+mlv(bimodalnorm)
+```
+
+See, it returns 1 mode only. So, We'll now get packages that can properly deal with multimodal data.
+
+```{r}
+#install.packages("biosurvey", "diptest", "LaplacesDemon", "mousetrap")
+library(biosurvey)
+library(diptest)
+library(LaplacesDemon)
+library(mousetrap)
+```
+
+First, let's use find_mode from biosurvey, and locmodes from multimode
+
+```{r}
+bp.d<-density(bimodalpois)
+find_modes(bp.d)
+
+library(multimode)
+locmodes(bimodalnorm, mod0 = 2) #here, we indicated that we expect 2 modes
+```
+
+You can also determine the multimodality of your data. We'll use the count data.
+
+```{r}
+dip.test(bimodalpois)
+is.unimodal(bimodalpois)
+is.bimodal(bimodalpois)
+bimodality_coefficient(bimodalpois)
+```
+
+The package mousetrap thinks the data is bimodal because it returns a coefficient \>0.55. All packages agree, we determined that our data truly is bimodal.
+
+Now, we'll determine the modes, with package LaplacesDemon.
+
+```{r}
+Modes(bimodalpois)
+```
+
+### Measuring the variability of your data
+
+#### 1. The range
+
+If you remember, the range simply indicates the boundaries of your data, i.e., the most extreme values min and max. R has a range function that provides min and max at once
+
+```{r}
+min(df$wing_span)
+max(df$wing_span)
+range(df$wing_span)
+```
+
+#### 2. The variance
+
+The variance is the mean of the squared deviations of the observations from their arithmetic mean, and it is rarely used, probably because it does not have the same unit as the original observations. However, many statistical tests use the variance in computation. And yes! R has a very convenient var function.
+
+```{r}
+var(df$wing_span)
+```
+
+#### 3. The standard deviation
+
+The standard deviation (abbreviated SD) is the square root of the variance. You can calculate it as such, otherwise R has a sd function.
+
+```{r}
+sqrt(var(df$wing_span))
+#Or the direct function
+sd(df$wing_span)
+```
+
+#### 4. The standard error
+
+The standard error of the mean (abbreviated SE or SEM), is obtained by dividing the standard deviation by the square root of the sample size. SD is used when indicating how scattered the data is, so it really measures the dispersion in a data set relative to it's mean. The SE, on the other hand, indicates the uncertainty around the measure of the mean, and so indicates the likely uncertainty with which your data represent the true population.
+
+Unfortunately, there is No base R function to calculate it (but some packages like plotrix have one). However, it's really easy to simply apply the formula.
+
+```{r}
+n<-length(df$wing_span) #define sample size
+sd(df$wing_span)/sqrt(n)
+```
+
+You can even create your own function easily, if you have many data sets and don't want to re-write the whole formula each time.
+
+```{r}
+std.error <- function(x) sd(x)/sqrt(length(x))
+std.error(df$wing_span)
+```
+
+#### 4. The confidence interval of the mean
+
+The confidence interval (abbreviated CI) of the mean is derived from calculating the standard error. You can decide how accurate to want to be, the classic threshold value being the 95% CI, which means that you are 95% confident that the true mean of the population will be included in the computed interval. But you can choose a 99% CI or even a 75% CI. The higher the threshold you choose, the wider will be your CI for a given set of data. The sample size also affects the CI: as your data set becomes smaller, then the multiplier because larger, and thus, your CI becomes wider.
+
+The CI is always symmetrical around the mean, and you can use it for direct comparison of data sets.
+
+```{r}
+a<-0.05
+ddf<-length(df$wing_span)-1
+t.s<-abs(qt(p=a/2, df=ddf))
+margin_error <- t.s * std.error(df$wing_span) #now compute the margin of error, 
+```
+
+We first defined an alpha threshold: the classic 95% CI, requiring an alpha threshold of 0.05 because 1-0.05 = 0.95 (so the CI you want.
+
+Then, we defined the degrees of freedom (ddf), which is your sample size n (hence we're using the length function we met earlier) minus 1.
+
+we, then, defined the t-score, which is a standardized score of your variable, where the mean always takes the score value of 50, and a difference of 10 from the mean indicates a difference of 1 SD. Thus, a score of 60 is one SD **above** the mean, while a score of 30 is two SD **below** the mean. We used the absolute value (function abs) to avoid a negative t-score, which would invert upper and lower bound of your CI.
+
+Finally, we defined the margin of error, which represent the amount of sampling error.
+
+And now we can calculate the upper and lower bound of our CI
+
+```{r}
+lower_bound <- mean(df$wing_span) - margin_error
+upper_bound <- mean(df$wing_span) + margin_error
+ci<-c(lower_bound, upper_bound)
+print(ci)
+```
+
+Remember that we defined a mean = 95.2 as the true mean of our population.
+
+Now, let's compute the 99% CI:
+
+```{r}
+a1<-0.01
+ddf<-length(df$wing_span)-1
+t.s1<-abs(qt(p=a1/2, df=ddf)) 
+margin_error <- t.s1 * std.error(df$wing_span)
+lower_bound <- mean(df$wing_span) - margin_error # Calculate the lower bound
+upper_bound <- mean(df$wing_span) + margin_error # Calculate the upper bound
+ci<-c(lower_bound, upper_bound)
+print(ci)
+```
+
+The new alpha threshold must be 0.01 because 1-0.01 = 0.99, the df doesn't change because we're using the same data set, and we adjust the t-score with our new alpha, and the margin of error with our new t-score.
+
+Note how the new 99% CI is a bit larger than the 95% CI.
+
+So, now, let's compute the 75% CI.
+
+```{r}
+a25<-0.25 #because 1-0.25 = 0.75
+ddf<-length(df$wing_span)-1
+t.s25<-abs(qt(p=a25/2, df=ddf))
+margin_error <- t.s25 * std.error(df$wing_span) 
+lower_bound <- mean(df$wing_span) - margin_error
+upper_bound <- mean(df$wing_span) + margin_error
+ci<-c(lower_bound, upper_bound)
+print(ci)
+```
+
+As you probably guessed, the CI is smaller than with an alpha threshold of 0.01.
+
+So, Now that we've dissected the CI with a bunch of code lines let's do it the easy way! 😉
+
+You can simply use the t.test function as a one-sample t-test, and it will provide the CI you have specified.
+
+```{r}
+t.test(df$wing_span)
+t.test(df$wing_span)$conf.int
+```
+
+The first line will provide all information of the output, and the second will specifically provide the CI.
+
+You can check that this method is strictly equivalent to the calculations we did above, as we will find the exact same results:
+
+```{r}
+t.test(df$wing_span, conf.level = 0.99)$conf.int
+t.test(df$wing_span, conf.level = 0.75)$conf.int
+```
+
+Note that in our example, the changes are relatively small, because we have a lot of data. But see what happens if we generate a small data set. To illustrate how sample size affects the CI, and the difference between different alpha values, we'll sub-sample our wing span data set (we will take the 1st 15 values).
+
+```{r}
+small.df<-as.data.frame(df[1:15,]) #we need to specify we want a dataframe because there is only one column so R will treat it as a vector.
+colnames(small.df)[1] <- "wing_span" #we have to provide the column name again
+```
+
+We apply the t.test function to this subset of the data set.
+
+```{r}
+t.test(small.df$wing_span)$conf.int 
+t.test(small.df$wing_span, conf.level = 0.99)$conf.int
+t.test(small.df$wing_span, conf.level = 0.75)$conf.int
+
+```
+
+First you can see tha we obtained a much bigger interval with 15 samples than with the 15,000 data points. The 99% CI has largely increased compared to 95% CI, when with n = 15,000, the increase was not that large.
+
+Finally, you can also see for yourself, that based on a sample size of 15, with a lower confidence level, we have missed the true mean of the population, which we had set at 95.2. So here, you have it: You are only 75% confident that the interval [79.15 - 90.10] contains the true population mean.
+
+Take home message is that whenever you have a small sample size, it is good practice to increase the accuracy of the CI (at least the 95% CI).
+
+### Skewness and kurtosis
+
+Just to be complete let's see how to get these two measure in R.
+
+The kurtosis of a normal distribution is = 3. So, if kurtosis\<3, your data is platykurtic, and thus, tends to produce fewer and less extreme outliers than the normal distribution. If kurtosis \> 3 your data is leptokurtic, and thus, tends to produce more outliers than the normal distribution.
+
+We'll use the package moments, because there is no base R function to calculate these parameters.
+
+```{r}
+library(moments)
+```
+
+We'll use our 2 data sets wing span and area, and we'll create a left-skewed data set
+
+```{r}
+ls<-as.data.frame(rbeta(15000,6,2)) #the left-skewed data set
+
+skewness(df$wing_span)
+skewness(df2$log_area)
+skewness(ls)
+```
+
+For wing span, the skewness is almost 0, so the distribution is normal. Skewness of area =4.3 (\>\>0), meaning the data is frankly right-skewed, and that of ls \<0 meaning it's left-skewed.
+
+Now , the kurtosis
+
+```{r}
+kurtosis(df$wing_span)
+kurtosis(df2$log_area)
+kurtosis(ls)
+```
+
+Here, the kurtosis of wing span is almost 3, meaning the data is normally distributed. but that of area is 32.80, meaning it has a heavy tail (far more extreme values than normal). The kurtosis of ls is 3.15, not that far from 3, meaning it has only a little more extreme value in its tail than a normal distribution.
+
+Remember, skewness mostly makes sense to calculate if you have a large data set (n\>30).
+
+### Describing categorical data
+
+As usual let's first generate a data set. Here, let's pretend we have observations of color morphs, size category and sex of leopard cats (*Prionailurus bengalensis)* associated to habitat.
+
+color, sex and habitat are nominal data, and size category is ordinal data.
+
+**💪 Advanced**
+
+It is pretty easy to simulate a data set with correlated continuous variable, but not quite as much with nominal data. So, we'll McGyver it, aka, it's a pretty ugly bit of code and I'm sure there are batter ways to do it, but it will do the job, and that's all we need.
+
+The idea is to obtain n = 500 rows of data of habitat, color morph, size catgory and sex, with color morph depending on habitat and both size category and sex independent. We can do it all by hand, but let's give the data set some random aspect. We'll generate 5,000 rows of data with the correlation we need, so that, at the end, we'll randomly sample 500 rows out of these 5,000, with equal probability of being selected. So, although the rows will be selected randomly, the fact that they have equal probability of being selected, means if we have 50% forest with 80% red morph and 20% grey morph in the initial data set, these proportions will be similar in the resulting final data set.
+
+```{r}
+library(ggcorrplot)
+library(dplyr)
+library(tidyr)
+
+f<- rep("forest", 2500)
+e<-rep("edge", 1000)
+a<-rep("agricultural", 1500)
+
+f.col<-as.data.frame(cbind(f, c(rep("red", 2000), rep("grey", 500))))
+colnames(f.col)[1] <- "hab"
+e.col<-as.data.frame(cbind(e, c(rep("red", 300), rep("grey", 650), rep("tawny", 50))))
+colnames(e.col)[1] <- "hab"
+a.col<- as.data.frame(cbind(a, c(rep("grey", 450), rep("tawny", 1050))))
+colnames(a.col)[1] <- "hab"
+
+h.col<-rbind(f.col, e.col, a.col)
+```
+
+Here we have the first part of our data set with columns habitat and color. The rep function replicates elements of vector and list. We first created different vectors for each habitat, because we need to match them with a specific proportion of color morphs. Like for example we want forest being 50% of all habitats, and we want a strong association of the red morph with forest: I chose 80% red and 20 grey.
+
+We need to have the same column names in each data frame, to rbind (i.e., bind the different data set row-wise) them at the end.
+
+Now, we'll randomly sample 500 rows from this data set and add the sex. The last line converts all character columns to factor.
+
+```{r}
+set.seed(123)
+df<-h.col[sample(nrow(h.col), 500), ]
+colnames(df)[2] <- "color"
+
+set.seed(1)
+sex<-sample(rep(c("F", "M"), 250))
+size<-as.factor(sample(rep(c("small", "medium", "large"), 167)))
+size<- head(size, -1)
+
+df<-cbind(df, sex, size)
+df <- as.data.frame(unclass(df),
+                    stringsAsFactors = TRUE)
+```
+
+### End of Advanced 💪
+
+#### 1. Frequency
+
+Frequency is the most common way to summarize categorical data. We will basically summarize data count in contingency tables, wich will compute counts for each category of variables. It's useful notably to check if your data is balanced. There are many ways to do so, but I will show you 2: notably the simple xtabs function, and using dplyr (awesome package for data wrangling).
+
+```{r}
+xtabs(~ color, data = df)
+xtabs(~ hab + color, data = df)
+xtabs(~ hab + sex, data = df)
+xtabs(~ color + size, data = df)
+
+tab<-xtabs(~ hab + color +sex, data = df)
+ftable(tab)
+
+tab2<-xtabs(~ sex + hab + color, data = df)
+ftable(tab2)
+```
+
+In the last couple lines, we produced a 3-D table, which can be pretty obnoxious to look at. ftable() reorganize the results in a better-looking way. You can also change the order of the variables.
+
+And same thing with dplyr.
+
+```{r}
+df %>%
+  count(hab, color)
+
+df %>%
+  count(hab, color, sex)
+
+df %>%
+  count(hab, color, sex, size)
+```
+
+dplyr uses this pipe syntax, and has a plethora of very convenient functions, that are relatively intuitive. We'll see more of this package soon. As you see here, the output is straight forward, each variable is in a column, and the rows represent the count of unique combinations.
+
+#### 2. proportions
+
+Another relatively common way to summarize and present categorical data, is to produce contingency tables with the proportions of each level or level combinations. To get the tables of proportions, we can simply feed our xtabs tables from above to the prop.tab function.
+
+```{r}
+prop.table(xtabs(~ color, data = df))
+prop.table(xtabs(~ hab + color, data = df))
+prop.table(xtabs(~ color + sex, data = df))
+prop.table(xtabs(~ size + sex, data = df))
+
+
+ftable(round(prop.table(tab), 2))
+ftable(round(prop.table(tab2), 2))
+```
+
+🍀 If you don't want R to print a bazillion decimal, you can use the function round, and set the number of decimals you'd like.
+
+And dplyr.
+
+```{r}
+df %>%
+  count(hab, color) %>%
+  mutate(prop = n / sum(n))
+
+df %>%
+  count(hab, color, sex) %>%
+  mutate(prop = n / sum(n))
+
+df %>%
+  count(hab, color, sex, size) %>%
+  mutate(prop = n / sum(n))
+```
+
+So, very similar table to the count one, but just with proportions instead.
+
+#### 3. Marginals
+
+Marginals is the total counts or percentages across columns or rows in a contingency table. I don't see it often provided, but you may need it, so let's take our earlier example of count of fur colors and create a table with it, then we'll ask R to give us the marginals.
+
+```{r}
+tab1<- xtabs(~ hab + color, data = df)
+tab1
+margin.table(tab1, 1)
+margin.table(tab1, 2)
+```
+
+First line, we've asked R to give us marginals for the rows (code 1), and on line two we asked columns (code 2) marginals.
+
+It goes the same way with the proportions.
+
+```{r}
+prop1<- prop.table(xtabs(~ color + sex, data = df))
+prop1
+
+margin.table(prop1, 1)
+margin.table(prop1, 2)
+```
+
+For proportions, you can also define the margin argument in the prop.table() function directly.
+
+```{r}
+xtabs(~ color + sex, data = df)
+prop.table(xtabs(~ color + sex, data = df), margin = 1)
+```
+
+The sum of values in the first row of the original table is: 70+82 = 152, in the second row 128 + 109 = 237, and in the third row 52 + 59 = 111.
+
+The output shows each individual value as a proportion of the row sum. For example: cell [1, 1] = 70/152 = 0.4605, cell [1, 2] = 82/152 = 0.5395, cell [3, 1] = 52/111 = 0.4684, etc.
+
+And it works the same way for margin = 2.
+
+```{r}
+prop.table(xtabs(~ color + sex, data = df), margin = 2)
+```
+
+The output shows each individual value as a proportion of the column sum. For example, total for Females: 70+128+52 = 250, so cell [1,1] = 70/250 = 0.28, etc...
+
+#### 4. Median and mode
+
+The median can only be obtained for ordinal data, and works the same like for quantitative data. You will just need to tell R that your factor is ordered.
+
+```{r}
+library(forcats)
+df$size <- factor(df$size, levels=c('small', 'medium', 'large'))
+df<- df %>%
+    mutate(size,
+            factor(size, ordered = TRUE))
+library(missMethods)
+median(df$`factor(size, ordered = TRUE)`)
+```
+
+Getting the mode of categorical data works exactly the same like for quantitative data.
+
+```{r}
+Mode(df$hab)
+Mode(df$color)
+```
+
+Easy! However, always check the frequency tables, because even when there is no mode, the function may still find one.
+
+```{r}
+Mode(df$size)
+```
+
+The result indicate medium is the mode, but it is not more frequent than large of small.
+
+#### 5. Variation ratio
+
+The variation ratio is the proportion of observation that deviate from the mode.
+
+```{r}
+#install.packages("foreign")
+library(foreign)
+
+prop.table(xtabs(~ size, data = df))
+prop.table(xtabs(~ hab, data = df))
+tab<-table(df$size)
+tabh<-table(df$hab)
+
+
+#Determine Variation Ratio
+VR<-1-max(tab)/sum(tab)
+VR
+
+VRh<-1-max(tabh)/sum(tabh)
+VRh
+```
+
+Here, we checked if size and color were unimodal, with xtabs. Because size is non-modal (i.e., there is not a mode, because we generated the 3 levels with equal probability), and habitat is unimodal, the variation ratio (VR) is pretty straight forward to calculate.
+
+Here, for size we have 66.7% of the data (2/3) that is different from the third level of size (logic, since each level represents about 33.3%). But it is a particular case, so we could instead probably report that the VR = 100%. There isn't much published about how to deal with this issue, but based on the definition, it should be 100%, since there is no mode, 100% of the data do not belong to the mode.
+
+For habitat, we find that 48.8% of the data differs from the most common value (forest which represents 50.2% of all habitats).
+
+Now let's create a small data set with bimodal categorical data.
+
+Let's imagine, we have observations of butterfly colors per site.
+
+```{r}
+
+butterfly<-data.frame(site = (c(rep("site1", 5), 
+                                  rep("site2", 5), 
+                                  rep("site3", 5))), 
+                          color = sample(c(rep("yellow", 5), 
+                                   rep("blue", 5),
+                                   rep("orange", 3), 
+                                   rep("purple", 2))))
+```
+
+For the second column, sample allows to randomize the order of the colors.
+
+So both Yellow and Blue are 5 times in the dataframe, meaning that both are modes. Let's get the VR.
+
+```{r}
+tab.b<-table(butterfly$color)
+tab.b
+
+#Determine maximum frequency and how often it occurs
+maxFreq <- max(tab.b)
+maxCount <- sum(tab.b==maxFreq)
+
+#Determine the Variation Ratio
+VR.b<-1-maxCount*maxFreq/sum(tab.b)
+VR.b
+
+```
+
+As expected, the VR indicates that 1/3 of the data is different to the modes. As you can see, the code to get the VR was similar to the previous one, except that we had to account for the fact that the mode grouped 2 levels of colors, hence, we multiplied the max frequency by the number of modes (in this case 2, but the same code works if you have more than 2 modes).
+
+#### 6. Coefficient of unalikeability
+
+Unalikability is a measure of variation for categorical variables, which measures the probability of drawing two non-equal values at random. The smaller the coefficient is, the less variation you have.
+
+```{r}
+#install.packages("remotes")
+#remotes::install_github("raredd/ragree")
+library(ragree)
+unalike(df$hab)
+unalike(df$sex)
+unalike(df$color)
+
+unalike(butterfly$color)
+```
