@@ -1,5 +1,5 @@
 # Intro_to_statistics_using_R_seminar_serie
-Just another stat seminar series from basic statistical concept to using generalized linear (mixed) models to analyze data
+Just another stat seminar series for beginners from basic statistical concept to using generalized linear (mixed) models to analyze data.
 
 Check out the little interactive games designed to test your knowledge:
 
