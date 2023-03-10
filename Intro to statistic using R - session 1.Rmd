@@ -11,9 +11,9 @@ In this file, you will find some code to summarize and describe your data with n
 With that said, let's begin. First, install some packages
 
 ```{r}
-#install.package(dplyr)
-#install.package(tidyr)
-#install.package(ggpubr)
+#install.packages("dplyr")
+#install.packages("tidyr")
+#install.packages("ggpubr")
 ```
 
 N.B.: I've used a \# in front of the install.packages code, because this package is already installed on my computer. If I run it, it will just ask me to restart R because the package is loaded.
