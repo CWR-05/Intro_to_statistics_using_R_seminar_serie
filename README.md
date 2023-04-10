@@ -8,3 +8,5 @@ https://view.genial.ly/6409c2a1476b5d001959796c/interactive-content-farm-escape-
 Some extra information, that we don't have time to cover during the seminars:
 
 https://view.genial.ly/640a00267f849c001aad26cd/interactive-content-image-flashcard
+
+And a new quiz about derived quantities: https://view.genial.ly/643443a6fa779d00101286b2/interactive-content-derived-quantitiesquiz-flashcard
