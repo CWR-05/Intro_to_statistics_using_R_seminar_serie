@@ -1,0 +1,386 @@
+id,age,age_cat,sex,traploc,organ,THg
+RF-18-CH-22,1,adult,F,Town of Churchill,KidCort,178.623275
+RF-18-CH-22,1,adult,F,Town of Churchill,KidMed,29.49875
+RF-18-CH-22,1,adult,F,Town of Churchill,claw,1155.286141
+RF-18-CH-22,1,adult,F,Town of Churchill,brain,23.78255
+RF-18-CH-22,1,adult,F,Town of Churchill,GH,1976.549283
+RF-17-CH-01,0,juvenile,F,Seal River,liver,96.92455
+RF-17-CH-05,0,juvenile,F,Goose Creek,liver,143.4173
+RF-17-CH-06,1,adult,F,Wakeworth Lake,liver,160.19525
+RF-17-CH-07,0,juvenile,F,Wakeworth Lake,liver,89.16516
+RF-17-CH-10,5,adult,F,Goose Creek,liver,309.96196
+RF-17-CH-14,0,juvenile,F,Town of Churchill,liver,144.2863
+RF-17-CH-19,2,adult,F,Southknife Lake,liver,180.34185
+RF-17-CH-22,0,juvenile,F,Mack Lake area,liver,67.52575
+RF-18-CH-04,0,juvenile,F,Button Bay,liver,116.75555
+RF-18-CH-12,0,juvenile,F,Twin Lakes,liver,123.0606
+RF-18-CH-14,0,juvenile,F,North River,liver,59.496525
+RF-18-CH-15,0,juvenile,F,Button Bay,liver,137.64365
+RF-18-CH-17,0,juvenile,F,Button Bay,liver,69.7825
+RF-18-CH-18,0,juvenile,F,North River,liver,101.9211
+RF-18-CH-20,0,juvenile,F,Twin Lakes,liver,91.31615
+RF-18-CH-21,7,adult,F,North River,liver,334.88845
+RF-18-CH-22,1,adult,F,Town of Churchill,liver,154.98075
+RF-18-CH-24,2,adult,F,North River,liver,157.02975
+RF-18-CH-25,0,juvenile,F,North River,liver,138.93435
+RF-18-CH-28,0,juvenile,F,North River,liver,62.97465
+RF-18-CH-29,0,juvenile,F,Town of Churchill,liver,97.6729
+RF-18-CH-30,0,juvenile,F,Twin Lakes,liver,124.82395
+RF-18-CH-33,0,juvenile,F,Town of Churchill,liver,48.509
+RF-18-CH-38,5,adult,F,Twin Lakes,liver,430.2187
+RF-18-CH-39,0,juvenile,F,Twin Lakes,liver,210.3587
+RF-18-CH-40,0,juvenile,F,Twin Lakes,liver,259.3577
+RF-17-CH-01,0,juvenile,F,Seal River,muscle,20.4699
+RF-17-CH-05,0,juvenile,F,Goose Creek,muscle,55.15605
+RF-17-CH-06,1,adult,F,Wakeworth Lake,muscle,58.21545
+RF-17-CH-07,0,juvenile,F,Wakeworth Lake,muscle,45.24102
+RF-17-CH-10,5,adult,F,Goose Creek,muscle,110.7888
+RF-17-CH-14,0,juvenile,F,Town of Churchill,muscle,42.4636
+RF-17-CH-19,2,adult,F,Southknife Lake,muscle,61.68345
+RF-17-CH-22,0,juvenile,F,Mack Lake area,muscle,17.32935
+RF-18-CH-04,0,juvenile,F,Button Bay,muscle,38.76505
+RF-18-CH-12,0,juvenile,F,Twin Lakes,muscle,93.8898
+RF-18-CH-14,0,juvenile,F,North River,muscle,25.5801
+RF-18-CH-15,0,juvenile,F,Button Bay,muscle,60.17025
+RF-18-CH-17,0,juvenile,F,Button Bay,muscle,27.4815
+RF-18-CH-18,0,juvenile,F,North River,muscle,47.08265
+RF-18-CH-20,0,juvenile,F,Twin Lakes,muscle,28.5819
+RF-18-CH-21,7,adult,F,North River,muscle,153.25085
+RF-18-CH-22,1,adult,F,Town of Churchill,muscle,43.85815
+RF-18-CH-24,2,adult,F,North River,muscle,35.98375
+RF-18-CH-25,0,juvenile,F,North River,muscle,57.2995
+RF-18-CH-28,0,juvenile,F,North River,muscle,37.2622
+RF-18-CH-29,0,juvenile,F,Town of Churchill,muscle,43.14795
+RF-18-CH-30,0,juvenile,F,Twin Lakes,muscle,42.56875
+RF-18-CH-33,0,juvenile,F,Town of Churchill,muscle,28.7374
+RF-18-CH-38,5,adult,F,Twin Lakes,muscle,184.2956
+RF-18-CH-39,0,juvenile,F,Twin Lakes,muscle,65.39325
+RF-18-CH-40,0,juvenile,F,Twin Lakes,muscle,101.55225
+RF-17-CH-01,0,juvenile,F,Seal River,KidCort,NA
+RF-17-CH-05,0,juvenile,F,Goose Creek,KidCort,NA
+RF-17-CH-06,1,adult,F,Wakeworth Lake,KidCort,NA
+RF-17-CH-07,0,juvenile,F,Wakeworth Lake,KidCort,NA
+RF-17-CH-10,5,adult,F,Goose Creek,KidCort,NA
+RF-17-CH-14,0,juvenile,F,Town of Churchill,KidCort,NA
+RF-17-CH-19,2,adult,F,Southknife Lake,KidCort,NA
+RF-17-CH-22,0,juvenile,F,Mack Lake area,KidCort,107.40255
+RF-18-CH-04,0,juvenile,F,Button Bay,KidCort,151.8234
+RF-18-CH-12,0,juvenile,F,Twin Lakes,KidCort,312.10765
+RF-18-CH-14,0,juvenile,F,North River,KidCort,171.0608
+RF-18-CH-15,0,juvenile,F,Button Bay,KidCort,394.478
+RF-18-CH-17,0,juvenile,F,Button Bay,KidCort,175.2923
+RF-18-CH-18,0,juvenile,F,North River,KidCort,225.5899583
+RF-18-CH-20,0,juvenile,F,Twin Lakes,KidCort,191.023
+RF-18-CH-21,7,adult,F,North River,KidCort,427.4035
+RF-18-CH-24,2,adult,F,North River,KidCort,455.446825
+RF-18-CH-25,0,juvenile,F,North River,KidCort,495.4925
+RF-18-CH-28,0,juvenile,F,North River,KidCort,245.9633
+RF-18-CH-29,0,juvenile,F,Town of Churchill,KidCort,256.48005
+RF-18-CH-30,0,juvenile,F,Twin Lakes,KidCort,286.1063
+RF-18-CH-33,0,juvenile,F,Town of Churchill,KidCort,133.032825
+RF-18-CH-38,5,adult,F,Twin Lakes,KidCort,300.48185
+RF-18-CH-39,0,juvenile,F,Twin Lakes,KidCort,357.6592
+RF-18-CH-40,0,juvenile,F,Twin Lakes,KidCort,430.18975
+RF-17-CH-01,0,juvenile,F,Seal River,KidMed,NA
+RF-17-CH-05,0,juvenile,F,Goose Creek,KidMed,NA
+RF-17-CH-06,1,adult,F,Wakeworth Lake,KidMed,NA
+RF-17-CH-07,0,juvenile,F,Wakeworth Lake,KidMed,NA
+RF-17-CH-10,5,adult,F,Goose Creek,KidMed,NA
+RF-17-CH-14,0,juvenile,F,Town of Churchill,KidMed,NA
+RF-17-CH-19,2,adult,F,Southknife Lake,KidMed,NA
+RF-17-CH-22,0,juvenile,F,Mack Lake area,KidMed,60.7187
+RF-18-CH-04,0,juvenile,F,Button Bay,KidMed,60.512875
+RF-18-CH-12,0,juvenile,F,Twin Lakes,KidMed,98.94805
+RF-18-CH-14,0,juvenile,F,North River,KidMed,28.2493
+RF-18-CH-15,0,juvenile,F,Button Bay,KidMed,99.7388
+RF-18-CH-17,0,juvenile,F,Button Bay,KidMed,33.422
+RF-18-CH-18,0,juvenile,F,North River,KidMed,81.48335
+RF-18-CH-20,0,juvenile,F,Twin Lakes,KidMed,52.5115
+RF-18-CH-21,7,adult,F,North River,KidMed,220.6297
+RF-18-CH-24,2,adult,F,North River,KidMed,95.20695
+RF-18-CH-25,0,juvenile,F,North River,KidMed,167.5354
+RF-18-CH-28,0,juvenile,F,North River,KidMed,54.6842
+RF-18-CH-29,0,juvenile,F,Town of Churchill,KidMed,92.79309167
+RF-18-CH-30,0,juvenile,F,Twin Lakes,KidMed,61.9774
+RF-18-CH-33,0,juvenile,F,Town of Churchill,KidMed,63.56055
+RF-18-CH-38,5,adult,F,Twin Lakes,KidMed,182.3716
+RF-18-CH-39,0,juvenile,F,Twin Lakes,KidMed,62.3871
+RF-18-CH-40,0,juvenile,F,Twin Lakes,KidMed,145.4088
+RF-17-CH-01,0,juvenile,F,Seal River,claw,459.029611
+RF-17-CH-05,0,juvenile,F,Goose Creek,claw,1142.103555
+RF-17-CH-06,1,adult,F,Wakeworth Lake,claw,1702.520285
+RF-17-CH-07,0,juvenile,F,Wakeworth Lake,claw,617.3605624
+RF-17-CH-10,5,adult,F,Goose Creek,claw,1079.197827
+RF-17-CH-14,0,juvenile,F,Town of Churchill,claw,1150.091267
+RF-17-CH-19,2,adult,F,Southknife Lake,claw,1732.237176
+RF-17-CH-22,0,juvenile,F,Mack Lake area,claw,NA
+RF-18-CH-04,0,juvenile,F,Button Bay,claw,287.2234
+RF-18-CH-12,0,juvenile,F,Twin Lakes,claw,209.4014
+RF-18-CH-14,0,juvenile,F,North River,claw,303.8711
+RF-18-CH-15,0,juvenile,F,Button Bay,claw,1605.5081
+RF-18-CH-17,0,juvenile,F,Button Bay,claw,885.4321
+RF-18-CH-18,0,juvenile,F,North River,claw,226.7094
+RF-18-CH-20,0,juvenile,F,Twin Lakes,claw,458.3897
+RF-18-CH-21,7,adult,F,North River,claw,1115.85439
+RF-18-CH-24,2,adult,F,North River,claw,1693.6451
+RF-18-CH-25,0,juvenile,F,North River,claw,1132.0764
+RF-18-CH-28,0,juvenile,F,North River,claw,566.5337
+RF-18-CH-29,0,juvenile,F,Town of Churchill,claw,227.0842
+RF-18-CH-30,0,juvenile,F,Twin Lakes,claw,NA
+RF-18-CH-33,0,juvenile,F,Town of Churchill,claw,235.36
+RF-18-CH-38,5,adult,F,Twin Lakes,claw,NA
+RF-18-CH-39,0,juvenile,F,Twin Lakes,claw,1764.902882
+RF-18-CH-40,0,juvenile,F,Twin Lakes,claw,NA
+RF-17-CH-01,0,juvenile,F,Seal River,brain,10.57063157
+RF-17-CH-05,0,juvenile,F,Goose Creek,brain,42.80802241
+RF-17-CH-06,1,adult,F,Wakeworth Lake,brain,NA
+RF-17-CH-07,0,juvenile,F,Wakeworth Lake,brain,25.81450148
+RF-17-CH-10,5,adult,F,Goose Creek,brain,109.931754
+RF-17-CH-14,0,juvenile,F,Town of Churchill,brain,46.11716935
+RF-17-CH-19,2,adult,F,Southknife Lake,brain,NA
+RF-17-CH-22,0,juvenile,F,Mack Lake area,brain,33.15230349
+RF-18-CH-04,0,juvenile,F,Button Bay,brain,16.6764
+RF-18-CH-12,0,juvenile,F,Twin Lakes,brain,53.3295
+RF-18-CH-14,0,juvenile,F,North River,brain,12.4029
+RF-18-CH-15,0,juvenile,F,Button Bay,brain,34.9539
+RF-18-CH-17,0,juvenile,F,Button Bay,brain,17.46495
+RF-18-CH-18,0,juvenile,F,North River,brain,21.0033
+RF-18-CH-20,0,juvenile,F,Twin Lakes,brain,16.6996
+RF-18-CH-21,7,adult,F,North River,brain,54.94716393
+RF-18-CH-24,2,adult,F,North River,brain,20.8567
+RF-18-CH-25,0,juvenile,F,North River,brain,40.32565
+RF-18-CH-28,0,juvenile,F,North River,brain,26.48303333
+RF-18-CH-29,0,juvenile,F,Town of Churchill,brain,30.13695
+RF-18-CH-30,0,juvenile,F,Twin Lakes,brain,38.87715
+RF-18-CH-33,0,juvenile,F,Town of Churchill,brain,NA
+RF-18-CH-38,5,adult,F,Twin Lakes,brain,62.80416696
+RF-18-CH-39,0,juvenile,F,Twin Lakes,brain,NA
+RF-18-CH-40,0,juvenile,F,Twin Lakes,brain,126.3069981
+RF-17-CH-01,0,juvenile,F,Seal River,GH,940.1566
+RF-17-CH-05,0,juvenile,F,Goose Creek,GH,2467.966963
+RF-17-CH-06,1,adult,F,Wakeworth Lake,GH,2089.975449
+RF-17-CH-07,0,juvenile,F,Wakeworth Lake,GH,1159.580917
+RF-17-CH-10,5,adult,F,Goose Creek,GH,2437.417656
+RF-17-CH-14,0,juvenile,F,Town of Churchill,GH,1974.136398
+RF-17-CH-19,2,adult,F,Southknife Lake,GH,2228.524
+RF-17-CH-22,0,juvenile,F,Mack Lake area,GH,NA
+RF-18-CH-04,0,juvenile,F,Button Bay,GH,577.03265
+RF-18-CH-12,0,juvenile,F,Twin Lakes,GH,531.3318
+RF-18-CH-14,0,juvenile,F,North River,GH,604.9926
+RF-18-CH-15,0,juvenile,F,Button Bay,GH,2509.829
+RF-18-CH-17,0,juvenile,F,Button Bay,GH,717.588
+RF-18-CH-18,0,juvenile,F,North River,GH,504.7938
+RF-18-CH-20,0,juvenile,F,Twin Lakes,GH,913.3898
+RF-18-CH-21,7,adult,F,North River,GH,2747.210345
+RF-18-CH-24,2,adult,F,North River,GH,2084.6407
+RF-18-CH-25,0,juvenile,F,North River,GH,2361.85
+RF-18-CH-28,0,juvenile,F,North River,GH,1461.9027
+RF-18-CH-29,0,juvenile,F,Town of Churchill,GH,553.6322
+RF-18-CH-30,0,juvenile,F,Twin Lakes,GH,NA
+RF-18-CH-33,0,juvenile,F,Town of Churchill,GH,481.0860648
+RF-18-CH-38,5,adult,F,Twin Lakes,GH,NA
+RF-18-CH-39,0,juvenile,F,Twin Lakes,GH,2096.632419
+RF-18-CH-40,0,juvenile,F,Twin Lakes,GH,NA
+RF-17-CH-02,0,juvenile,M,Seal River,liver,123.96985
+RF-17-CH-03,5,adult,M,Seal River,liver,287.2108
+RF-17-CH-04,7,adult,M,Goose Creek,liver,344.38825
+RF-17-CH-12,3,adult,M,Seal River,liver,239.08055
+RF-17-CH-13,0,juvenile,M,Button Bay,liver,162.75855
+RF-17-CH-18,9,adult,M,Southknife Lake,liver,823.33565
+RF-17-CH-20,3,adult,M,Southknife Lake,liver,257.6811
+RF-17-CH-23,5,adult,M,Southknife Lake,liver,181.33465
+RF-18-CH-01,0,juvenile,M,Button Bay,liver,113.2119
+RF-18-CH-02,0,juvenile,M,Town of Churchill,liver,178.6171
+RF-18-CH-03,8,adult,M,Town of Churchill,liver,524.1555
+RF-18-CH-05,9,adult,M,Seal River,liver,813.55445
+RF-18-CH-06,0,juvenile,M,Seal River,liver,263.93025
+RF-18-CH-07,0,juvenile,M,Twin Lakes,liver,86.916
+RF-18-CH-08,10,adult,M,Line 25,liver,866.3033333
+RF-18-CH-09,7,adult,M,Button Bay,liver,514.6424
+RF-18-CH-10,8,adult,M,Line 25,liver,321.1452
+RF-18-CH-11,0,juvenile,M,Line 25,liver,99.8016
+RF-18-CH-13,10,adult,M,North River,liver,1348.4717
+RF-18-CH-16,5,adult,M,Twin Lakes,liver,285.7407
+RF-18-CH-19,1,adult,M,Town of Churchill,liver,221.6603
+RF-18-CH-23,10,adult,M,North River,liver,684.63085
+RF-18-CH-26,0,juvenile,M,Town of Churchill,liver,93.02885
+RF-18-CH-27,8,adult,M,North River,liver,678.11105
+RF-18-CH-31,0,juvenile,M,Town of Churchill,liver,94.0347
+RF-18-CH-34,0,juvenile,M,Town of Churchill,liver,118.3506
+RF-18-CH-35,5,adult,M,Town of Churchill,liver,336.2813
+RF-18-CH-36,0,juvenile,M,Town of Churchill,liver,134.23935
+RF-18-CH-37,7,adult,M,Town of Churchill,liver,289.7048
+RF-17-CH-02,0,juvenile,M,Seal River,muscle,43.0278
+RF-17-CH-03,5,adult,M,Seal River,muscle,108.39995
+RF-17-CH-04,7,adult,M,Goose Creek,muscle,230.91375
+RF-17-CH-12,3,adult,M,Seal River,muscle,96.58495
+RF-17-CH-13,0,juvenile,M,Button Bay,muscle,65.266775
+RF-17-CH-18,9,adult,M,Southknife Lake,muscle,394.33075
+RF-17-CH-20,3,adult,M,Southknife Lake,muscle,64.9669
+RF-17-CH-23,5,adult,M,Southknife Lake,muscle,48.85525
+RF-18-CH-01,0,juvenile,M,Button Bay,muscle,24.7698
+RF-18-CH-02,0,juvenile,M,Town of Churchill,muscle,59.0392
+RF-18-CH-03,8,adult,M,Town of Churchill,muscle,195.2556
+RF-18-CH-05,9,adult,M,Seal River,muscle,679.72865
+RF-18-CH-06,0,juvenile,M,Seal River,muscle,75.3651
+RF-18-CH-07,0,juvenile,M,Twin Lakes,muscle,32.75825
+RF-18-CH-08,10,adult,M,Line 25,muscle,392.6433
+RF-18-CH-09,7,adult,M,Button Bay,muscle,185.3098
+RF-18-CH-10,8,adult,M,Line 25,muscle,79.933325
+RF-18-CH-11,0,juvenile,M,Line 25,muscle,41.2328
+RF-18-CH-13,10,adult,M,North River,muscle,509.91995
+RF-18-CH-16,5,adult,M,Twin Lakes,muscle,166.189
+RF-18-CH-19,1,adult,M,Town of Churchill,muscle,111.50165
+RF-18-CH-23,10,adult,M,North River,muscle,320.78365
+RF-18-CH-26,0,juvenile,M,Town of Churchill,muscle,31.17213333
+RF-18-CH-27,8,adult,M,North River,muscle,265.22465
+RF-18-CH-31,0,juvenile,M,Town of Churchill,muscle,48.2534
+RF-18-CH-34,0,juvenile,M,Town of Churchill,muscle,121.5448
+RF-18-CH-35,5,adult,M,Town of Churchill,muscle,78.1831
+RF-18-CH-36,0,juvenile,M,Town of Churchill,muscle,42.7022
+RF-18-CH-37,7,adult,M,Town of Churchill,muscle,135.9248
+RF-17-CH-02,0,juvenile,M,Seal River,KidCort,NA
+RF-17-CH-03,5,adult,M,Seal River,KidCort,NA
+RF-17-CH-04,7,adult,M,Goose Creek,KidCort,NA
+RF-17-CH-12,3,adult,M,Seal River,KidCort,NA
+RF-17-CH-13,0,juvenile,M,Button Bay,KidCort,NA
+RF-17-CH-18,9,adult,M,Southknife Lake,KidCort,1427.46005
+RF-17-CH-20,3,adult,M,Southknife Lake,KidCort,326.74785
+RF-17-CH-23,5,adult,M,Southknife Lake,KidCort,407.1727486
+RF-18-CH-01,0,juvenile,M,Button Bay,KidCort,166.528
+RF-18-CH-02,0,juvenile,M,Town of Churchill,KidCort,406.4808
+RF-18-CH-03,8,adult,M,Town of Churchill,KidCort,1038.2269
+RF-18-CH-05,9,adult,M,Seal River,KidCort,3494.8119
+RF-18-CH-06,0,juvenile,M,Seal River,KidCort,295.5353
+RF-18-CH-07,0,juvenile,M,Twin Lakes,KidCort,179.9623
+RF-18-CH-08,10,adult,M,Line 25,KidCort,1114.69896
+RF-18-CH-09,7,adult,M,Button Bay,KidCort,809.659675
+RF-18-CH-10,8,adult,M,Line 25,KidCort,374.7522
+RF-18-CH-11,0,juvenile,M,Line 25,KidCort,331.766075
+RF-18-CH-13,10,adult,M,North River,KidCort,1630.8091
+RF-18-CH-16,5,adult,M,Twin Lakes,KidCort,717.532
+RF-18-CH-19,1,adult,M,Town of Churchill,KidCort,497.203325
+RF-18-CH-23,10,adult,M,North River,KidCort,961.4412
+RF-18-CH-26,0,juvenile,M,Town of Churchill,KidCort,268.4909333
+RF-18-CH-27,8,adult,M,North River,KidCort,1483.88525
+RF-18-CH-31,0,juvenile,M,Town of Churchill,KidCort,248.6937
+RF-18-CH-34,0,juvenile,M,Town of Churchill,KidCort,327.5523
+RF-18-CH-35,5,adult,M,Town of Churchill,KidCort,457.18
+RF-18-CH-36,0,juvenile,M,Town of Churchill,KidCort,227.0431
+RF-18-CH-37,7,adult,M,Town of Churchill,KidCort,540.6015
+RF-17-CH-02,0,juvenile,M,Seal River,KidMed,NA
+RF-17-CH-03,5,adult,M,Seal River,KidMed,NA
+RF-17-CH-04,7,adult,M,Goose Creek,KidMed,NA
+RF-17-CH-12,3,adult,M,Seal River,KidMed,NA
+RF-17-CH-13,0,juvenile,M,Button Bay,KidMed,NA
+RF-17-CH-18,9,adult,M,Southknife Lake,KidMed,522.60815
+RF-17-CH-20,3,adult,M,Southknife Lake,KidMed,91.5303
+RF-17-CH-23,5,adult,M,Southknife Lake,KidMed,49.63191289
+RF-18-CH-01,0,juvenile,M,Button Bay,KidMed,54.9494
+RF-18-CH-02,0,juvenile,M,Town of Churchill,KidMed,104.3522
+RF-18-CH-03,8,adult,M,Town of Churchill,KidMed,277.2983
+RF-18-CH-05,9,adult,M,Seal River,KidMed,1035.0161
+RF-18-CH-06,0,juvenile,M,Seal River,KidMed,81.6972
+RF-18-CH-07,0,juvenile,M,Twin Lakes,KidMed,37.556
+RF-18-CH-08,10,adult,M,Line 25,KidMed,370.646775
+RF-18-CH-09,7,adult,M,Button Bay,KidMed,235.05545
+RF-18-CH-10,8,adult,M,Line 25,KidMed,109.8812
+RF-18-CH-11,0,juvenile,M,Line 25,KidMed,69.687025
+RF-18-CH-13,10,adult,M,North River,KidMed,411.198725
+RF-18-CH-16,5,adult,M,Twin Lakes,KidMed,150.7134
+RF-18-CH-19,1,adult,M,Town of Churchill,KidMed,95.3735
+RF-18-CH-23,10,adult,M,North River,KidMed,366.2403
+RF-18-CH-26,0,juvenile,M,Town of Churchill,KidMed,62.517425
+RF-18-CH-27,8,adult,M,North River,KidMed,368.035325
+RF-18-CH-31,0,juvenile,M,Town of Churchill,KidMed,73.1014
+RF-18-CH-34,0,juvenile,M,Town of Churchill,KidMed,141.14215
+RF-18-CH-35,5,adult,M,Town of Churchill,KidMed,116.3596
+RF-18-CH-36,0,juvenile,M,Town of Churchill,KidMed,121.7517
+RF-18-CH-37,7,adult,M,Town of Churchill,KidMed,144.30352
+RF-17-CH-02,0,juvenile,M,Seal River,claw,209.8455483
+RF-17-CH-03,5,adult,M,Seal River,claw,1046.932183
+RF-17-CH-04,7,adult,M,Goose Creek,claw,NA
+RF-17-CH-12,3,adult,M,Seal River,claw,NA
+RF-17-CH-13,0,juvenile,M,Button Bay,claw,1708.023024
+RF-17-CH-18,9,adult,M,Southknife Lake,claw,2097.108098
+RF-17-CH-20,3,adult,M,Southknife Lake,claw,NA
+RF-17-CH-23,5,adult,M,Southknife Lake,claw,1734.542671
+RF-18-CH-01,0,juvenile,M,Button Bay,claw,415.4019
+RF-18-CH-02,0,juvenile,M,Town of Churchill,claw,1727.203397
+RF-18-CH-03,8,adult,M,Town of Churchill,claw,NA
+RF-18-CH-05,9,adult,M,Seal River,claw,907.801
+RF-18-CH-06,0,juvenile,M,Seal River,claw,1010.8812
+RF-18-CH-07,0,juvenile,M,Twin Lakes,claw,607.5294
+RF-18-CH-08,10,adult,M,Line 25,claw,2134.761449
+RF-18-CH-09,7,adult,M,Button Bay,claw,523.9863
+RF-18-CH-10,8,adult,M,Line 25,claw,1098.690824
+RF-18-CH-11,0,juvenile,M,Line 25,claw,352.8503
+RF-18-CH-13,10,adult,M,North River,claw,590.924
+RF-18-CH-16,5,adult,M,Twin Lakes,claw,1036.685066
+RF-18-CH-19,1,adult,M,Town of Churchill,claw,1177.1364
+RF-18-CH-23,10,adult,M,North River,claw,1613.5977
+RF-18-CH-26,0,juvenile,M,Town of Churchill,claw,722.31215
+RF-18-CH-27,8,adult,M,North River,claw,553.1556
+RF-18-CH-31,0,juvenile,M,Town of Churchill,claw,242.5655
+RF-18-CH-34,0,juvenile,M,Town of Churchill,claw,NA
+RF-18-CH-35,5,adult,M,Town of Churchill,claw,NA
+RF-18-CH-36,0,juvenile,M,Town of Churchill,claw,NA
+RF-18-CH-37,7,adult,M,Town of Churchill,claw,1054.765828
+RF-17-CH-02,0,juvenile,M,Seal River,brain,NA
+RF-17-CH-03,5,adult,M,Seal River,brain,95.56458402
+RF-17-CH-04,7,adult,M,Goose Creek,brain,79.32032219
+RF-17-CH-12,3,adult,M,Seal River,brain,94.0306484
+RF-17-CH-13,0,juvenile,M,Button Bay,brain,NA
+RF-17-CH-18,9,adult,M,Southknife Lake,brain,119.8427216
+RF-17-CH-20,3,adult,M,Southknife Lake,brain,117.1630466
+RF-17-CH-23,5,adult,M,Southknife Lake,brain,45.81868898
+RF-18-CH-01,0,juvenile,M,Button Bay,brain,15.44815
+RF-18-CH-02,0,juvenile,M,Town of Churchill,brain,36.97043333
+RF-18-CH-03,8,adult,M,Town of Churchill,brain,167.604
+RF-18-CH-05,9,adult,M,Seal River,brain,NA
+RF-18-CH-06,0,juvenile,M,Seal River,brain,45.7129
+RF-18-CH-07,0,juvenile,M,Twin Lakes,brain,18.4913
+RF-18-CH-08,10,adult,M,Line 25,brain,132.12225
+RF-18-CH-09,7,adult,M,Button Bay,brain,126.8838
+RF-18-CH-10,8,adult,M,Line 25,brain,38.07345
+RF-18-CH-11,0,juvenile,M,Line 25,brain,20.03205
+RF-18-CH-13,10,adult,M,North River,brain,269.442975
+RF-18-CH-16,5,adult,M,Twin Lakes,brain,94.05335
+RF-18-CH-19,1,adult,M,Town of Churchill,brain,67.9639
+RF-18-CH-23,10,adult,M,North River,brain,179.81535
+RF-18-CH-26,0,juvenile,M,Town of Churchill,brain,17.4542
+RF-18-CH-27,8,adult,M,North River,brain,158.4412
+RF-18-CH-31,0,juvenile,M,Town of Churchill,brain,27.05
+RF-18-CH-34,0,juvenile,M,Town of Churchill,brain,NA
+RF-18-CH-35,5,adult,M,Town of Churchill,brain,31.91671193
+RF-18-CH-36,0,juvenile,M,Town of Churchill,brain,NA
+RF-18-CH-37,7,adult,M,Town of Churchill,brain,127.5031636
+RF-17-CH-02,0,juvenile,M,Seal River,GH,532.6510699
+RF-17-CH-03,5,adult,M,Seal River,GH,2131.013387
+RF-17-CH-04,7,adult,M,Goose Creek,GH,NA
+RF-17-CH-12,3,adult,M,Seal River,GH,NA
+RF-17-CH-13,0,juvenile,M,Button Bay,GH,2096.584806
+RF-17-CH-18,9,adult,M,Southknife Lake,GH,1037.594604
+RF-17-CH-20,3,adult,M,Southknife Lake,GH,NA
+RF-17-CH-23,5,adult,M,Southknife Lake,GH,2641.366196
+RF-18-CH-01,0,juvenile,M,Button Bay,GH,466.9641
+RF-18-CH-02,0,juvenile,M,Town of Churchill,GH,2501.034595
+RF-18-CH-03,8,adult,M,Town of Churchill,GH,NA
+RF-18-CH-05,9,adult,M,Seal River,GH,885.58075
+RF-18-CH-06,0,juvenile,M,Seal River,GH,1958.2888
+RF-18-CH-07,0,juvenile,M,Twin Lakes,GH,1338.7772
+RF-18-CH-08,10,adult,M,Line 25,GH,1076.6991
+RF-18-CH-09,7,adult,M,Button Bay,GH,658.7313
+RF-18-CH-10,8,adult,M,Line 25,GH,2595.052543
+RF-18-CH-11,0,juvenile,M,Line 25,GH,411.5008
+RF-18-CH-13,10,adult,M,North River,GH,1183.8178
+RF-18-CH-16,5,adult,M,Twin Lakes,GH,1973.798845
+RF-18-CH-19,1,adult,M,Town of Churchill,GH,2446.1525
+RF-18-CH-23,10,adult,M,North River,GH,3424.0085
+RF-18-CH-26,0,juvenile,M,Town of Churchill,GH,1327.614
+RF-18-CH-27,8,adult,M,North River,GH,1230.1559
+RF-18-CH-31,0,juvenile,M,Town of Churchill,GH,601.658
+RF-18-CH-34,0,juvenile,M,Town of Churchill,GH,NA
+RF-18-CH-35,5,adult,M,Town of Churchill,GH,NA
+RF-18-CH-36,0,juvenile,M,Town of Churchill,GH,NA
+RF-18-CH-37,7,adult,M,Town of Churchill,GH,2285.392296
