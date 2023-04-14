@@ -1,0 +1,502 @@
+---
+title: "Intro to statistics using R - session 2"
+output: html_document
+date: "2023-04-12"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction to statistics using R - Session 2
+
+## Introduction to R and RStudio - R intermission
+
+During this short intro to R, we will see the main basic functions, and we will learn how to perform the steps (and associated basic functions) from importing a data set, that I prepared as an example, to summarizing the descriptive statistics of our data set.
+
+## R basics
+
+#### R is case sensitive.
+
+Let's create an object and see what happens if we use the wrong case to call it
+
+```{r}
+hab<-"forest"
+hab
+Hab
+```
+
+That's right, we get an error message.
+
+#### R tolerates extra spaces
+
+For clarity, I encourage you to use spaces.
+
+```{r}
+hab2<-"prairie"
+rm(hab2) #deletes the newly created hab2 so you can see that adding spaces changes nothing
+hab2 <- "prairie"
+```
+
+First, you can see that adding spaces or not changes nothing. Second, notice the \# sign: as explain you can add whatever comments in your r code, as long as you add a \# in front, it will not run.
+
+🍀If for some reason R does not respond, or you made a mistake you can terminate whatever current command you are running by pressing the esc key.
+
+#### R is a calculator, with some useful functions!
+
+```{r}
+3+2 #simple addition
+```
+
+The `[1]` in front of the result means that the observation number at the beginning of the line is the first observation. Not very useful here for a simple calculation, but when you get a series of calculations with an output taking 10 lines, that may come handy!
+
+```{r}
+pi #pi is a built-in constant in R
+pi*5^2 #pi*r^2 i.e., area of a circle with r = 5
+
+log(8) #log base e
+log10(8) #log base 10
+
+exp(8) #exponential or natural anti-log
+
+sqrt(8) #square root
+```
+
+As we said during last session, R has convenient functions for pretty much everything basic. I encourage you to (every now and then) use R when you have easy calculation to perform, instead of using excel or the computer integrated calculator for example. Using R regularly is the only way to get used to it, and become proficient.
+
+As you just saw by running these lines, the results only got displayed in the console. That's because we did not create any object. So if you want to keep an output for later use, don't forget to create objects.
+
+#### Create objects
+
+```{r}
+r <- log(25) #we created an object r (radius)
+area<-pi*r^2 #now we can create an object area reusing the object r directly
+```
+
+To create an object you use the operator \<- sometimes referred to as "gets operator". So, in the first line above you would read r gets log(25). You can also use =
+
+```{r}
+diam = r*2
+```
+
+As you can see the objects are stored in the Environment pane. You can create objects with multiple values (we'll see that in a minute).
+
+🍀Tips about naming objects: not as easy as it seems. You can an object pretty much anything you want, but there are a few rules. 1. keep the names as short as possible, while keeping them informative (easier said than done), 2. NO special characters, that's just opening doors for trouble, 3. if you name an object with multiple words, use . or \_ to separate them, or capitalize each word (ex.: my_data, my.model, MyOutput), 4. a few words are not allowed because they are reserved for specific cases like TRUE or NA. You can try but R won't let you (I actually encourage you to try to see what happens, 5. Don't call an object with the name of a function, R might or might not let you but if it does let you, you will definitely run into problems (ex.: instead of data name dat, or df).
+
+Let's see how to create objects with multiple values for different data type
+
+```{r}
+int<- c(1, 2, 3) #see int is numeric and has 3 obs [1:3]
+chr<- c("Hello world!", "Howdy!", "great day!") #and now we have a character variable, with 3 values [1:3]
+```
+
+Now don't forget when writing characters you need to add "". Let see what happens if you forget.
+
+```{r}
+sky<- star
+```
+
+You get an error, R thinks, you were calling an object that doesn't exist.
+
+```{r}
+sky<- c("star", "moon", "sun")
+```
+
+Here, we go, it works! And congrats, you have been using an R function, c() is a function and a short for concatenate. Functions in R are ALWAYS followed by round brackets, and everything you put into the function is separated by commas.
+
+#### R functions and vectors
+
+Remember (Remember the fifth of November...): During last session we used many functions.
+
+```{r}
+mean(int)
+sd(int)
+length(chr)
+```
+
+Just to name a few. Most common calculation, R has a pre-written function for it. Don't hesitate to re-read last session's code again, to remember the different functions we used.
+
+When dealing with a vector of length \> 1, you can extract specific values from your vector. For example, we want the 2nd entry of vector chr
+
+```{r}
+chr[2]
+# you can stored this value for later use
+h<- chr[2]
+```
+
+Using c, you can extract multiple values
+
+```{r}
+chr[c(1,2)]
+```
+
+let's create a vector containing a sequence of numbers. You have (like for pretty much everything else) quite a few ways to do it. Below are two common ways to create a suite of integers withing a certain range.
+
+```{r}
+my.vec<-5:20
+vec<-seq(from = 5, to = 20, by = 1)
+```
+
+The first way is shorter but only works when we want our sequence to be every 1 number. With the second you could customize further (see below).
+
+```{r}
+vec2<-seq(5, 20, by = 0.5)
+vec3<-seq(5, 20, by = 0.1)
+```
+
+Let's go back to my.vec: we can ask R to tell us which entries are bigger than 10
+
+```{r}
+my.vec[my.vec > 10] #in my.vec which values of my.vec are > 10
+```
+
+or you can ask if specific values are bigger than 10
+
+```{r}
+my.vec > 10
+```
+
+In the command above, R returns logical values TRUE and FALSE
+
+Now, let's see the most common logical operators: \|, &, ==, !=, \>=, \<=
+
+```{r}
+my.vec[my.vec < 10 & my.vec > 5] # & is AND
+
+my.vec[my.vec <= 10 & my.vec >= 5]
+
+my.vec[my.vec > 8 | my.vec ==5] # | is OR and == is equal to
+
+my.vec[my.vec != 20 & my.vec != 10] #adding ! in front of = means you want to exclude it
+```
+
+You can also replace elements in your vector
+
+```{r}
+my.vec[2]<- 800 #just 1
+my.vec
+
+my.vec[c(6, 7)] <- 500 # or many
+my.vec
+
+my.vec[my.vec < 1000 & my.vec > 100]<- 5 #double condition
+my.vec
+
+my.vec[my.vec > 19] <- 1000 #conditionally
+my.vec
+```
+
+You can also perform calculation on entire vectors.
+
+```{r}
+my.vec2<- my.vec*2
+log.vec<- log(my.vec)
+```
+
+You can also do these calculations on data frame columns. Take the code from session 1, we have done just that (like asking the mean of column wing_span from df mean(df\$wing_span).
+
+Ok, that's it for the basics. Just 2 last pieces of info:
+
+🍀Tip: If you want to save your work, remember these 2 functions: save and save.image
+
+```{r}
+#save(nameOfObject, file = "name_of_file.RData") #to save an object. Very useful when your object is a model that has been running for 10 days!
+
+#save.image(file = "name_of_file_Date.RData") #To save all your workspace at once
+```
+
+Try these functions out!
+
+To load a RData object, there is the wait for it... load() function.
+
+```{r}
+#load(file = "name_of_file_Date.RData")
+```
+
+You've notice I've put a \# in front of these 3 commands. That's because, when I'll print this .Rmd file as an HTML file, R runs everything and if one line returns an error, the printing aborts. If you want to try replave the generic object name I've inserted by a real one and don't forget to delete the #.
+
+🍀Tips for naming a file on your computer (that works for any file, from word docs, and ppt presentations to R files or data bases): 1. never overwrite former versions unless you have a very good reason to. You may want to trace back the changes you've been making, especially when collaborating on the same file with other people. 2. Whether you already have multiple version of the same file or not, always add the date, that will help you being organize, and please don't make the rookie mistake of naming a file V2.2 (they're not softwares) or V3, or Final, or FinalVersion, trust me, I've seen many a computer with 10 FinalVersions of the same file... that's never a good idea. If you collaborate with internationals, remember that we all have different conventions to write dates: 05/11/2023 will either be November 5th, 2023, or May 11th, 2023 depending on where you're from. I strongly recommend to use YYYYMMDD, it's a widely used format for international collabs because not ambiguous. 3. Keep the name a short as you can, but still provide all key infos. Your future You will thank Past You for it, and collaborators may appreciate. For example eagle_data.csv is a terrible name, because we don't have any info beside the fact that it's about eagle. Canada_boldeagle_morpho_data_20102022_20230412.csv is indeed longer, but we have the info we need now: the db contains the morphometric data of the Canadian Bald eagle population from 2010 to 2022, and was last updated on April 12 2023. The same goes for an R workspace: "R_seminar_series_session2_20231204.RData" is much better than "R_code_FinalVersion.RData".
+
+## Asking R for help or information
+
+There are a few ways. Let's take for example the read.csv function
+
+```{r}
+?read.csv # the documentation now appears in the Output pane
+```
+
+If you're not sure anymore of the exact name of the function you can use the help.search function
+
+```{r}
+help.search("read csv")
+```
+
+R now proposes a few different options that correspond to your key words.
+
+Now, good practice wants you to systematically report the version of R and packages you used to perform an analysis. That's also key info to provide if you're asking help online (just like for everything else computer): some bugs or specific behaviors are linked to your software version.
+
+SessionInfo(), tells you everything about your session including R version, the platform, and your OS, current timezone, language...m and the loaded packages attached or not. Check it out:
+
+```{r}
+sessionInfo()
+```
+
+To get the version of a specific package you can use packageVersion()
+
+```{r}
+packageVersion("dplyr")
+```
+
+And to cite your packages right, use citation()
+
+```{r}
+citation("dplyr")
+```
+
+### Let's play with a real data set!
+
+## Presentation of the data set
+
+The data set I have provided is a modified version of a real-life data set that was build to assess the relationship between total mercury concentration (THg) in diverse organs of red foxes. The data set contains the following variables: individual ID, age in number of years as an integer, age category (adult or juvenile), sex (F or M), organ (liver, muscle, renal cortex, renal medulla, brain, claw and guard hair), and Total mercury concentration (THg) as a continuous variable . As it is often the case in real life data sets, we have some NA for THg in diverse tissues.
+
+## Steps to produce descriptive stats of your data set
+
+### 1. Setting your working directory
+
+First, we need to define our working directory (wd). Here, I recommend that you create a new file called "R_seminar_session2" in Documents to run this code.
+
+As for most command in R, there are many ways to define the wd. Let's see a couple ways.
+
+The classic way (which I very much dislike)
+
+```{r}
+wd<- setwd("C:/Users/crodrigues/Documents/R_seminar_session2")
+```
+
+Why do I dislike it? Because it's hardly a reproducible line of code, since each person on earth has organized their computer files differently, the path will change for each of us!
+
+Because worse even: say I finally decide to properly organize my files on my computer, but I have many R projects going on. I deleted files, created new ones, moved objects into new files etc... I would have to rewrite every setwd command in my codes... Huge waste of time!
+
+Also, because the longer the path, the more likely you may make mistakes when writing the path and get errors such as Error in setwd("xxx") : cannot change working directory. You'll need to pinpoint where you wrote something wrong. Again, waste of time...
+
+I could go on, on why I hate setting the wd the classic way. Coding is for lazy people, because they always find the easier way to do it 😜
+
+My (easier) solution here is:
+
+```{r}
+setwd(choose.dir())
+```
+
+I put a \# because, unfortunately, it often creates issues when knitting a Rmd file into HTML, but in normal R it will open a pop up window in which you can directly choose which file you want to use as working directory. Plus you send your code to friends, they don't need to change that line, they can directly use it with their own file organization.
+
+You can either set it directly as above, or store the path in an object we will call wd, that appears in value as you can see. If you need to feed the path of the wd to another function at some point, you can just use the name of the object "wd".
+
+```{r}
+#wd<-setwd(choose.dir())
+```
+
+Now we have our working directory, we want to load our data set.
+
+### 2. Loading the data set
+
+You need your data as a text format, so ideally csv or txt. Here, we have a csv, so let's load it
+
+```{r}
+df<- read.csv("RF_mercury_long_20230406.csv")
+```
+
+The command is read.csv(), we call our dataframe df (How original! 😜).
+
+If you work with Frenchies, they will likely have a weird format of csv with ";" as separator instead of "," and a "," for decimal point instead of ".". In that case, the command will be read.csv2()
+
+If you have a .txt file the command is read.table().
+
+The same way you chose the wd from a pop-up window, you could do the same for whatever files you want to import.
+
+```{r}
+#df<- read.delim(file.choose(""))
+```
+
+But unlike for the wd, I do not recommend this selection method. If you have multiple versions of your files (since you should never overwrite a previous version), it's better to write down the name of the file you last worked with. Say you're publishing your paper and analysis have been done like a year ago (or more!), and a reviewer ask you to re-do or check something, trust me, you will thank Past you to have written down the exact file name you've been using last. That will avoid you possibly not finding the same results you reported in your "Results" section and subsequent headache. Of course that suggest you are not renaming your data bases on a regular basis...
+
+### 3. Summarizing the data for data exploration
+
+The next step will be the very first steps of the data exploration process, which allows you to get to know your data set, like it's your best friend.
+
+Data exploration is a crucial part of data analysis. In fact, most of the times, you will spend way more time exploring your data than actually modelling them. running a linear model, take 1min, but choosing (and then validating it, a step we will cover in a future session), will take much much longer, and will guarantee that you did a proper job, and can trust your results. If you don't provide detailed information on these steps, reviewers will reject your paper (or at least they should, if they know what they're doing. I totally would), because there would be no way to know if we can trust your claims. Plus, it will ensure reproducibility: if I take your data and follow the steps you describe in your "Methods" section, I should 1. be easily able to do so, just by reading your Methods, 2. find the same results. Reproducibility ensures that, as scientists, we do our job right.
+
+#### 3.1 Check out the missing values
+
+First, we will check how many NAs we have and where they are, to make sure they're not following a pattern, and thus be a problem.
+
+```{r}
+colSums(is.na(df))
+
+which(colSums(is.na(df))>0)
+
+names(which(colSums(is.na(df))>0))
+```
+
+The first line returns the number of NAs for each column (this is the line I personally always use in first intention, because it is the most informative). The function is.na() basically transform each cell of your data frame into a logical value: is it NA? TRUE or FALSE. Then the colSums() function counts the number of TRUE per column.
+
+The second line names and gives you the position of columns where the count of NAs \> 0. and the third line only provides the column name.
+
+Now that we know that we only have missing values in THg, we want to check there is no pattern. So, we will switch to package dplyr (which you will get to know quite well in future sessions), to summarize the NAs by group.
+
+```{r}
+library(dplyr) #first we load the package
+
+df<- as.data.frame(unclass(df),
+                       stringsAsFactors = TRUE) #this line convert all characters into factors at once
+
+
+
+dCount.sex <- df %>%                                    # Count NA by sex
+  group_by(sex) %>%
+  summarize(count_na = sum(is.na(THg)), n = length(THg))
+dCount.sex
+
+dCount.age <- df %>%                                    # Count NA by age category
+  group_by(age_cat) %>%
+  summarize(count_na = sum(is.na(THg)), n = length(THg))
+dCount.age
+
+#To check by age, we can plot it because it will be easier to visualize for most people than a table with numbers for so many categories
+#First, we create a table for age like above
+dCount.age2 <- df %>%                                    # Count NA by age
+  group_by(age) %>%
+  summarize(count_na = sum(is.na(THg)), n = length(THg))
+
+#Then we create a new variable: that is the proportion of NAs (Nas per age/n)
+dCount.age2$prop_na<- dCount.age2$count_na/dCount.age2$n
+
+#Finally we load ggpubr (wrapper for ggplot2, easier to use) and make a scatterplot with the correlation R value and a p value for a pearson correlation
+library(ggpubr)
+ggscatter(dCount.age2, x = "age", y = "prop_na",
+          add = "reg.line",                                 # Add regression line
+          conf.int = TRUE,                                  # Add confidence interval
+          add.params = list(color = "blue",
+                            fill = "lightgray")
+          )+
+  stat_cor(method = "pearson", label.x = 0.2, label.y = 1)  # Add correlation coefficient
+
+```
+
+So, missing values seem to be pretty random. The R we obtained for age is quite high, but that's because we have very few old animals, so we can safely consider that the apparent pattern is just due to sampling.
+
+We first loaded the dplyr package using the library() function, and the second line is a command to convert all characters from your data set into factors, which are (in general) easier to deal with in R. The usual command to convert from one data type to another is as.NewDataType(as.OldDataType())
+
+```{r}
+df$id<- as.character(as.factor(df$id)) #back to character
+df$id<- as.factor(as.character(df$id)) #and again convert id to factors
+```
+
+#### 3.2 Summarizing THg per group
+
+Here, we will use dplyr again, but this time to summarize THg concentration per group.
+
+```{r}
+thg.SexAge <- df %>% 
+   filter(!is.na(df$THg)) %>%
+  group_by(sex, age_cat) %>%
+  summarize(min = min(THg), max = max(THg), mean = mean(THg),
+            se = sd(THg)/sqrt(length(THg)), n = length(THg))
+thg.SexAge
+```
+
+We have to filter out the NAs otherwise, they will cause problems (take out the filter line, and run the code to see).
+
+Let's do the same for trapping location.
+
+```{r}
+thg.loc <- df %>% 
+   filter(!is.na(df$THg)) %>%
+  group_by(traploc) %>%
+  summarize(min = min(THg), max = max(THg), mean = mean(THg),
+            se = sd(THg)/sqrt(length(THg)), n = length(THg))
+thg.loc
+
+xtabs(~ traploc + sex, data = df)
+tab<-xtabs(~ traploc + age_cat + sex, data = df)
+ftable(tab)
+```
+
+We saw, that some locations (namely GosseCreek and Wakeworth Lake) may be associated with higher THg mercury in fox tissues, but we also saw above that adult females seem to have more mercury in their tissues. We, thus, need to check if the distribution of sex per location is balanced (the 2 xtabs lines that we also saw last session show you the count of sex - line1 - and sex\*age_cat - line 2- per location), and it is not balanced. If we were going to analyze these data today, that info should get you to think about possibly excluding one of the variable sex or traploc as they may be strongly associated, and should definitely make you test for that association specifically. We'll talk about correlation between explanatory variables further in future sessions.
+
+Next, we can produce a table summarizing THg per tissue per sex and age. We will use a different way this time, one that does not involve dplyr.
+
+```{r}
+dfc<-df[complete.cases(df),]
+sum.tab <- aggregate(dfc$THg, 
+                     by = list(dfc$sex, dfc$age_cat, dfc$organ), 
+                     FUN = function(x) c(min = min(x), max = max(x), 
+                                         median = median(x), mean = mean(x), 
+                                         se = sd(x)/sqrt(length(x)), 
+                                         n = length(x)))
+sum.tab<-do.call(data.frame, sum.tab)
+colnames(sum.tab)<- c("sex", "age", "organ", "min", "max", "median", "mean", "se", "n")
+
+
+```
+
+Like with dplyr, ignoring the NAs will cause problems. We need to get rid of them, and we did that with function complete.cases() which only keeps rows that are complete. Then, we used the function aggregate(). The arguments you give to aggregate are the column you want to summarize by group (here, the THg), then the groups (as a list), and finally the functions you want (here, we asked for min, max, median, mean, standard error\*, and sample size). \*Remember Standard error se does not have a specific function, so you need to add it by hand sd (Standard deviation)/ sqrt (square root) of n (sample size).
+
+Then, we converted sum.tab into a real data frame, and renamed the columns.
+
+Yay! We have our summary table! 🎉
+
+Below, is another bit of code to make the table pretty. We won't cover it in class, but I encourage you to try to run it.
+
+💪 We have our summary table. Now, we'll see how to make it pretty.
+
+```{r}
+library(rempsyc)
+library(flextable) #load the two necessary libraries
+nice_table(sum.tab) #nice function, eh?
+```
+
+Now we have a nice table, but we need to arrange it because we technically have multilevel headers. and instead here we have each group as a separate column.
+
+```{r}
+#First, we'll combine sex and age in the same column
+sum.tab$sex_age<- paste0(substr(sum.tab$sex, 1, 1), ".", 
+                         substr(sum.tab$age, 1, 1))
+
+# Remove columns using select()
+sum.tab2 <- sum.tab %>% select(-c(sex, age))
+
+#Then, we'll separate the rows by group sex_age
+fa<- subset(sum.tab2, sex_age == "F.a")
+ma<- subset(sum.tab2, sex_age == "M.a")
+fj<- subset(sum.tab2, sex_age == "F.j")
+mj<- subset(sum.tab2, sex_age == "M.j")
+
+#And create a new df with the 4 df bound columnwise - we need to exclude the first column from 3 of teh df and the last column from all of them
+dat <- cbind(fa[,1:7], fj[,2:7], ma[,2:7], mj[,2:7])
+
+#Now we rename the column (except the first one) the proper way so that the function understands what header it should take
+names(dat)[-1] <- c(paste0("Female.adult.", names(sum.tab2[2:7])),
+                    paste0("Female.juvenile.", names(sum.tab2[2:7])),
+                    paste0("Male.adult.", names(sum.tab2[2:7])),
+                    paste0("Male.juvenile.", names(sum.tab2[2:7])))
+
+#Now we'll rename the organs the way we want them to appear in the table
+# Renaming factor levels dplyr
+dat <- dat %>%
+  mutate(organ=recode(organ, "GH"="Guard hair", "brain" = "Brain", 
+                     "claw"="Claw", "KidCort" = "Renal cortex",
+                     "KidMed" = "Renal medulla", "liver"= "Liver",
+                     "muscle"= "Muscle"))
+
+#Now we use nice_table()
+nice_table(dat)
+#All seems in order, ready for the last step which consists of separating headers
+nice_table(dat, separate.header = TRUE, italics = seq(dat))
+
+```
+
+That's all for this example. Using flextables, you can really customize your tables any way you wish. Here, is the link to package flextable user guide: <https://ardata-fr.github.io/flextable-book/> 💪
+
+#### We will stop here for today, we will see much more of R during the next sessions, as we will slowly shift from mostly theoretical seminars to mostly practical ones.
