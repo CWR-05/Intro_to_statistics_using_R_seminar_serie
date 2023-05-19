@@ -12,3 +12,5 @@ https://view.genial.ly/640a00267f849c001aad26cd/interactive-content-image-flashc
 And a new quiz about derived quantities: https://view.genial.ly/643443a6fa779d00101286b2/interactive-content-derived-quantitiesquiz-flashcard
 
 A new revision quiz about probability distributions: https://view.genial.ly/644689b02b0e67001728bf20/interactive-content-probability-distribution-quiz
+
+May 19, 2023: I have added 2 short exercises designed to help get used to reading someone else's code and adapt it to your needs and Googling "How to do.......in R". ETC: 5-6min.
