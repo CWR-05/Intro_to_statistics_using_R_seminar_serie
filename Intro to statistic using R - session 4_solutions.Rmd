@@ -1,0 +1,1011 @@
+---
+title: "Intro to statistics using R - session 4_data_wrangling"
+output: html_document
+date: "2023-05-26"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Intro to statistics using R - session 4 - Data wrangling (part 1)
+
+##### Author: Warret Rodrigues Chloé
+
+##### 2023-06-24
+
+During this session and the next, we will review how to import data, summarize them, and learn hands-on how to explore, clean, tidy, transform, manipulate, and summarize your data, to get the data in the right form for vizualization and analysis. In short data wrangling is the process of converting your raw data into a usable format.
+
+Proper data wrangling is an inevitable step in data analysis and data visualization, and when properly done, helps ensuring reproducibility, and other good practices in science.
+
+Before diving into data manipulation, we'll review how to start an R project, and we will also review the main R objects.
+
+## Part 1: Revisions and a few tips
+
+### 1.1 define working directory
+
+First thing off, when you start a project in R you need to define your working directory. There are more than one way to do it, but the easiest is to use the following code
+
+```{r}
+setwd(choose.dir())
+```
+
+It's the easier, because you don't have to type a path, and because you can send your code as is to someone else, they can readily use the exact same line without having to change it at all.
+
+You can then verify that your working directory is properly defined using the getwd() function.
+
+```{r}
+getwd()
+```
+
+### 1.2 Install and load packages
+
+Then you may need to install packages. As mentioned in a previous session, you can do that directly from the output pane using the ***"Packages" tab***. But you can also write the following command
+
+```{r}
+install.packages(c("tidyverse", "lubridate"))
+#Here for example we are installing the lubridate and tidyverse (which in facts contains most things you need for data wrangling: dplyr, ggplot2, tidyr, forcats, purr, stringr, readr, and tibble) packages
+```
+
+Installing packages downloads them onto your hard drive. And now that you've installed packages, what?!
+
+To be able to use the functions from the packages, you need to load them. Like below"
+
+```{r}
+library(tidyverse)
+library(lubridate)
+#Here we load the packages we have just installed
+```
+
+🔥🔥🔥**IMPORTANT: You only need to DOWNLOAD a package ONCE, But you need to LOAD packages EVERY TIME you start an RStudio session** 🔥🔥🔥
+
+### 1.3 Read, convert, explore, remove and write data
+
+The next step is loading your data. Again, there are more than one way to do it, but here we will use the read.csv function
+
+```{r}
+data<- read.csv("gout_session_20230624.csv")
+
+#data2<- read.csv2(".csv") #use this command if your computer is set in a country using "," as decimal separator and ";" as column separator.
+```
+
+Once you have loaded your data, you need to check the structure, i.e., check that all columns imported correctly, and check what type your data is. To do so, you can click on the blue arrow besides your data name in the Environment pane (You can review the slides of session 2 for an "R Studio anatomy". You can also write the following command:
+
+```{r}
+str(data)
+```
+
+Each column is identified by \$, so verify all columns were imported properly. Ask yourself: Was each variable assigned the data type you expected?
+
+Here, we see that gout was imported as a numerical variable, and all non-numeric variables were imported as a character. Now you may need these variables interpreted as factors with different levels (we talked about data type during session 1). But you can convert data from one type to another.
+
+Let's start with the variable "gout". Gout is a binary variable indicating if a bird died of gout or not. We did code it as 0 and 1, which R interpreted as numerical, but we could have as well code it in YES and NO or POSITIVE and NEGATIVE, meaning it is simply a binary factor. So, let's convert it as a factor.
+
+```{r}
+data$gout<- as.factor(as.integer(data$gout))
+```
+
+Now you can check that it worked.
+
+```{r}
+is.factor(data$gout)
+```
+
+is.xxx series of commands return a logical value TRUE or FALSE.
+
+*NB: here it doesn't matter for R if you convert your binary response variable into a factor or integer, to run a logistic regression.*
+
+All your string (essentially words and dates) variables were imported as characters. You may need to have them as factor. You can convert them one by one just like we did with gout if you only want a few specific columns to be considered as factors, or all at once after you've imported them.
+
+```{r}
+data$sex<- as.factor(as.character(data$sex)) #one by one
+
+data <- as.data.frame(unclass(data), # Convert all character columns to factor
+                    stringsAsFactors = TRUE)
+```
+
+The unclass() function in R generates a copy of the object (here your dataframe) but without the class attribute, here we use it so we can re-create our dataframe, overwriting R natural tendency to consider all string as characters.
+
+Now let's check the output again.
+
+```{r}
+str(data)
+```
+
+You could also have imported all your string variables as factor in the first place.
+
+Let's remove our dataframe from the environment and import again, but this time asking R to consider all string as factors.
+
+```{r}
+rm(data) #rm is the command for remove
+
+data<- read.csv("gout_session_20230624.csv", 
+                stringsAsFactors = TRUE) #You just need to change the default value of stringsAsFactors to TRUE
+
+str(data)
+```
+
+*NB: you have 2 date variables in this data frame, although we won't see right now how to deal with them, I need you to remember that **dates must be stored as character** until you convert them into proper dates. So, let's convert them as character right now.*
+
+```{r}
+#Step 1: create a vector storing the names of the 2 columns you need to convert
+cols <- names(data)[2:3]
+#the vector is called cols, name() extract the names of columns, the (data)[2:3] bit is the way to select specific columns using their position within the datafarame
+
+#Now we use a function that will systematically apply whatever function to a series of object, in this case the 2 columns
+data[cols] <- lapply(data[cols], as.character)
+
+lapply(data[cols], is.character) #here we've used the same function to check both columns at once
+```
+
+🍀We'll come back to it later, but let's have a quick word on the lapply function we used: lapply belongs to the apply family of functions, from base R. This family performs function iteratively on each object you wish your function to be applied to, without having to write a loop (which is highly appreciable!).
+
+Alright, now you're happy with the way your data looks, we can summarize it using the summary() function which will summarize each column.
+
+```{r}
+summary(data)
+```
+
+Because we have a mix data type, you can see that R summarizes the numeric columns differently from the factor or character ones.
+
+Does the output ring any bells? (review the content of session 1)
+
+For the numerical variable, R returns a few descriptive statistics, i.e., the range (Min, Max), the mean, and the 1st quartile (25th percentile), the median (50th percentile) and the 3 quartile (75th percentile). You can check the notes from session 1 for a reminder on these quantities. For characters and factors (strings) R returns a count of each unique value.
+
+Now, let's say you want to locate some specific values: you can use the one of the which.xxx () functions.
+
+For example, we want to know the min and max values of age, and their position in the dataframe.
+
+```{r}
+max(data$age)
+which.max(data$age)
+```
+
+✍️✍️✍️ Your turn: do the same for min
+
+```{r}
+##Solution
+min(data$age)
+which.min(data$age)
+```
+
+Ok, fun is over... Now let's complicate things a tad 😈
+
+So far, we have only loaded in R csv files, but there are plenty of data types you can import in R, like other text files with different extensions (like .txt), but also spatial data, (like .shp or .tif) each of which can be imported in R with different functions, depending on the specifics of your file. We will not cover these other type of data, because it is unlikely that you'll deal with them, and if you ever do, that means you'll have reached a stage where you're comfortable enough to figure it out by yourself.
+
+What you will most certainly need, though, is a way to import the data bases from the SQL server. Here is how you can do it.
+
+```{r}
+library(RODBC)
+#define the connection
+MyConn=odbcConnect(dsn="MISSOUR_TRACK_UNDU_EXPORT", #write your dsn here, i.e., you're calling the Open DataBase Connectivity
+                   uid="",
+                   pwd="") #Here you've defined the connection, which you will use to retrieve what you need. Note that you will likely only be able to use this code from the work computers
+
+sqlTables(MyConn) #This function provide the full list of available tables from the dsn
+
+
+egg <- sqlFetch(MyConn, "IA - Capture sur oeuf", as.is = T)
+#tables are a collection of "what not to do when naming stuff in a database" so R just sends back error messages
+#as.is tells R to ignore the fact that the column names were poorly chosen and contain forbiden characters. (see notes from session 3)
+
+close(MyConn) #You need to explicitely close the connection to the dsn
+
+#Let's duplicate our dataframe for example
+egg1<- egg
+egg2<- egg
+
+#Now let's clean the names. 
+#You can fix column names individually, changing them in the process
+colnames(egg1)[2]<-"ring"
+
+#You can fix all of them
+colnames(egg2)<- c("id", "ring", "date", "dino1", "dino2", "dino3",
+                   "delivery", "time_day", "date_lay", "notes")
+
+# Or, if you don't need to create new names, you can just clean the names of all columns at once by simply getting them rid of forbidden characters, and capital letters. Again diverse ways of doing so. We'll use the janitor package.
+library(janitor)
+
+egg3<- clean_names(egg)
+```
+
+Now, if you have clean a dataframe, or produced a summary table of your data, you may want to save it as a csv file. As an example, let's export egg2 as a csv file.
+
+```{r}
+write.csv(egg2, "egg2.csv", row.names = F)
+```
+
+You can also save your entire workspace using the save.image() function, so that next time you open R, all your objects will be loaded. Remember, though, that you will still have to reload packages.
+
+```{r}
+save.image("Intro_stat_R_session4.RData")
+```
+
+To load your workspace again, you simply need to use the load() function
+
+```{r}
+load("Intro_stat_R_session4.RData")
+```
+
+Ok, one last bit of info in this section: we'll re-import egg2 and use 2 functions to see if everything is fine with these data. But first, we'll remove the current egg2.
+
+```{r}
+#to remove r objects you can use rm()
+rm(egg2)
+#note, you can remove multiple objects
+rm(egg, egg1, sp2, sp22, young)
+
+#Let's reimport egg2
+egg2<- read.csv("egg2.csv")
+
+# After you load a dataframe, you can inspect the top and bottom of the data frame. # You can use the two base R functions head() and tail(), which will show the first # and last 6 rows, respectively. You may use the n= argument to change the number
+# of rows displayed
+
+head(egg2)
+tail(egg2)
+
+head(egg2, n = 10)
+tail(egg2, n = 3)
+```
+
+## Part 2: Data wrangling
+
+### 2.1 Performing operations on rows and columns
+
+#### 2.1.1 Select rows and columns
+
+If you need to perform some operation on specific columns, you will need to select that specific column. There are many ways of doing so, as usual. Let's see some of them:
+
+\*as an example, we'll use function str(), we've used before.
+
+```{r}
+# 1. One way you already know: Use $. Your column will work as a vector 
+str(data$species)
+
+# 2. use the column name in the single bracket preceded by the dataframe name. Your column will be treated as a dataframe
+str(data["age"])
+
+# 3. use the column position in the single bracket preceded by the dataframe name. Your column will also be treated as a dataframe
+str(data[8])
+
+# 4. use the column name in the double bracket preceded by the dataframe name. Your column will also be treated as a vector
+str(data[["age"]])
+
+# 5. use the column position in the double bracket preceded by the dataframe name. Your column will also be treated as a vector
+str(data[[8]])
+```
+
+We've just seen how to extract columns, so now let's see how to select rows.
+
+```{r}
+#Using the row index
+data2<- data[5,] #Note the ","! If you forget it, R will think you're extracting a column
+
+# Same for multiple rows
+data3<- data[c(5, 10, 15, 20, 25),]
+
+#Select a range
+egg.sub<- egg[1:100,]
+
+# using logical conditions
+
+##e.g., we want to separate the alchata species from data
+alch<- data[data$species == 'alchata', ] #Note the "==" and not just 1 "=", meaning "is equal to"
+
+##e.g., we want to remove specific rows
+breed<- data[data$fate != "Cull",] #Note that "!=" means different
+
+##Numerical variable: you want the young birds
+young<- data[data$age < 1095, ]
+
+##Select by 2 conditions: only Females < 3 year old
+youngF<- data[data$sex == "F" & data$age < 1095, ]
+
+##Select 2 of teh three species: 2 ways of doing it
+sp2<- data[data$species %in% c("alchata", "coronatus"), ]
+sp22<- data[data$species == "alchata"| data$species == "coronatus", ]
+
+## and an important one: exclude the NAs from dino 1 column
+egg2<- egg2[!is.na(egg2$dino1), ]
+```
+
+You got the gist. Here is the list of logical operators:
+
+**\<** is less than
+
+**\>** is more than
+
+**\<=** is less than or equal to
+
+**\>=** is more than or equal to
+
+**==** is equal to
+
+**!=** is different from
+
+**%in%** belongs to group. Like in our example value %in% c("A", "B") means value can be A or B. Works with numerical variables to value %in% c(10, 15) means value can be 10 or 15. Equivalent to \| but shorter
+
+**is.na()** is NA
+
+**!is.na()** is not NA
+
+**\|** means or
+
+**&** means and
+
+✍️✍️✍️ It's your turn!
+
+```{r}
+## 1. Create a new dataframe by selecting females from orientalis species
+###Solution
+or.f<- data[data$species == "orientalis"& data$sex == "F", ]
+
+## 2.  Create a new dataframe by selecting all males older than 730 days from coronatus or orientalis 
+###Solution
+old.m<- data[data$species %in% c("coronatus", "orientalis") & data$sex == "M" & data$age >730, ]
+
+## 3. In egg2 select NAs from dino 2 columns (animals who received at most 1 dino injection)
+###Solution
+dino<- egg2[is.na(egg2$dino2), ]
+```
+
+Now that you understand how to select rows and columns, you can manipulate them. for example, we will change the value of cell (1,1) in data 2.
+
+```{r}
+#You can combine row and column selection
+data2$ring<- as.character(data2$ring)
+data2[1,1] <- "A"
+
+#Now if it'a a factor, it won't work unless you replace whatever value by one of the pre-existing levels. Let's check
+data2$ring<- as.factor(data2$ring)
+data2[1,1]<- "B"
+
+#Here is how to fix it: you need to expand the factor levels
+levels(data2$ring) <- c(levels(data2$ring), "B")
+data2[1,1]<- "B"
+```
+
+✍️✍️✍️ Your turn: in data 2, change the sex to Male "M"
+
+```{r}
+###Solution
+levels(data2$sex) <- c(levels(data2$sex), "M")
+data2[1,4]<- "M"
+```
+
+#### 2.1.2 A quick note on NAs
+
+It's usually important that you identify the NAs in your data. There are a few useful tools, for doing that.
+
+```{r}
+#Identify rows where data is missing in a specific column
+which(is.na(data$weight))
+
+#count the total occurrence of NAs
+sum(is.na(data$weight))
+```
+
+The second command can also be applied to the entire dataframe
+
+```{r}
+sum(is.na(data))
+```
+
+We just saw we can eliminate NAs from a specific column using logical operators, but if for some reason you need to discard all rows containing at 1 NA in any column, there is a convenient command:
+
+```{r}
+data.c<- data[complete.cases(data),]
+```
+
+It is also a nice example of row selection: in data, we select all rows that are completed.
+
+**2.1.3 Batch-perform operations on rows and columns with the apply family** We've been looking at columns and rows 1 by 1. It is definitely useful, but can be tedious, if you have to repeat the same operation on each and every one column or rows of your dataframe. The apply family is one of the most famous (and most brilliant) R feature, because it avoids using loops (which can be obnoxious to write).
+
+There are 4 specific functions we will see:
+
+apply() applies functions over columns and rows of dataframes, matrix and arrays
+
+lapply() applies functions over lists, vectors, and dataframes and returns a list
+
+sapply() applies function over lists, vectors, and dataframes, like lapply, but returns a vector
+
+tapply() applies functions to groups (factors) in vectors (or column of dataframe) and computes a table of results
+
+Let's check them out. First, apply: it takes 3 arguments (object, margin (1 = rows, 2 = columns), function)
+
+```{r}
+#We want the class of each column
+apply(data, 2, class)
+
+#we want to know if columns are numeric
+apply(data, 2, is.numeric)
+
+#Not the is.numeric function: it indicates if the object is of type numeric (double or integer), by returning a logical value (i.e., TRUE or FALSE), 
+```
+
+Now, lapply and sapply: both take 2 arguments (object, function)
+
+```{r}
+#get frequency table for sex and species in data
+lapply(data[c(4,5)], table)
+
+#get the class of each column of data
+col.type<-lapply(data, class) #check out the output
+
+#Let's repeat that last operation but with sapply instead
+col.type2<- sapply(data, class) 
+#Did you notice the difference?
+
+#Let's get max age and max weight
+lapply(data[,c(8,10)], function(x) {max(x, na.rm = T)})
+
+#As you can see, here I had to write things a bit differently. Let's see what happens if we write things like we did before
+lapply(data[,c(8,10)], max)
+#max returns NA, because you have to specify that you want it to ignore NAs
+# and that's why we had to write max as a function(x)
+```
+
+The last example leads me to functions. Most R commands you have used are functions wrapped into a single word for you in Base R or a package. But you can define your own functions!
+
+For example, you may remember that there is no convenient wrapper for getting the standard error. So we'll create a function for that. The syntax of functions is function(parameters) {operations}
+
+```{r}
+#example
+circumference<- function(r) {pi*r*2}
+circumference(2)
+
+#with multiple arguments
+mult<- function(x, y) {x*y}
+mult(6,5)
+```
+
+We will create a function for getting the standard error, and apply it to our numeric columns
+
+```{r}
+se<- function(x) {sd(x, na.rm = T)/sqrt(length(x))}
+#Notice how we are indicating to the sd function to remove NAs
+
+sapply(data[c(8,10)], se)
+```
+
+Now the tapply function: it takes 3 arguments (object on which to apply the function, an factor containing the groups or levels, the function)
+
+```{r}
+#Example, we want the average age per sandgrouse species
+tapply(data$age, data$species, mean)
+```
+
+Different functions can be combined. For example we may want to get the mean age and weight for each species using the apply family. For that we will need to combine the functions!
+
+```{r}
+#First, we'll remove rows with NAs
+data.c<-data[complete.cases(data),]
+data.c$gout<- as.factor(data.c$gout)#we make sure gout is a factor, otherwise R will considere is as numeric
+
+#Let's check we don't have NAs anywhere
+sum(is.na(data.c))
+
+#Now let's have fun!
+lapply(data.c[sapply(data.c, is.numeric)], function(x) tapply(x, data.c$species, 
+       mean))
+```
+
+One more word on the apply family: we applied these functions to columns of our data frame, but they can be used for any type of iterative operation, providing you use the right type of file with the right member of the apply family. For example, you may wish to load multiple data bases without having to write the read.csv function as many times as you have data bases to import.
+
+```{r}
+#First step, you can list all files in your working directory
+list.files()
+
+#Now you select which files you want to import. We want only csv files
+mydatasets<-list.files(pattern = "*.csv")
+
+#Finally you import all files at once with lapply
+csv.list<-lapply(mydatasets, read.csv)
+
+#Your data frames don't have names
+names(csv.list)
+
+#so we'll provide names
+names(csv.list) <- mydatasets
+names(mydatasets)
+#And unlist the csv
+list2env(csv.list,envir=.GlobalEnv) #here we split the list into the individual dataframes
+
+```
+
+### 2.2 The dplyr package
+
+Until now, we've been using mostly base R to manipulate our data. But package dplyr is a collection of verbs designed specifically to tackle most common data manipulation challenges, it is compatible with a wide variety of other packages, meaning you can use the structure of dplyr and add functions of other packages to simplify whatever operation you're doing.
+
+Let's load dplyr
+
+```{r}
+#You can load dplyr directly
+library(dplyr)
+
+#Or you can load the full tidyverse at once
+library(tidyverse)
+```
+
+When you load dplyr you will notice the warning message "The following objects are masked from 'package:base': intersect, setdiff, setequal, union", that's because dplyr has functions sharing the same name like base R. Loading dplyr will overwrite the base R functions, e.g., if you call "union" the default will be using the dplyr union function, rather than union from base R. So, if you need to access the union function of base R all you have to do is tell R you're calling the base R function, like that: *base::union()*
+
+Base R has simple and powerful syntax for wrangling data, but if you have more complicated manipulations to do, the code can easily become unwieldy and messy. In addition to its simple and straight forward grammar, dplyr uses pipes %\>% , that are very convenient to organize the code in the order you want the manipulations to be performed. The origin of these pipes used in dplyr is the magrittr package, but they will be imported automatically without the need of loading magrittr.
+
+The dplyr package comes with great vignettes (see the intro to dplyr for example: <https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html>), and you can find very good resources for understanding dplyr online if you need. Here we're gonna cover the basics and use it from now on in subsequent sections.
+
+There are 8 main verbs that you will use regularly, and they apply to rows, columns, or subset of rows:
+
+Rows:
+
+-   filter() select rows based on variable values
+
+-   slice() select rows by location
+
+-   arrange() changes row order
+
+Columns:
+
+-   rename() changes column names
+
+-   mutate() adds new variables that are functions of existing variables
+
+-   select() picks variables based on their names.
+
+-   relocate() changes column order
+
+Groups of rows
+
+-   summarise() reduces values by group to a single summary.
+
+Let's reuse a few examples of what we tried before, but with dplyr:
+
+Subset columns and change their names:
+
+```{r}
+#subset columns
+data.s<- data %>%
+  select(ring, dateborn, dateout, gout)
+data.s<- data.s %>%
+  
+#That's where pipes are handy, you can do all that in 1 go
+rm(data.s)
+data.s<- data %>%
+  select(ring, dateborn, dateout, gout) %>% 
+  rename(ring = ring,  date_birth = dateborn,  date_out = dateout, gout = gout)
+
+#If your data base has many more columns and you want a shortcut, you can couple the dplyr syntax with quick functions that we saw earlier:
+egg.c<- egg3 %>% 
+  select(t_ind_bague_id, date_de_capture_sur_oeuf, injection_1_dinolytic,
+         injection_2_dinolytic, injection_3_dinolytic, type_de_ponte) %>%
+  `colnames<-`(c("ring", "date", "dino1", "dino2", "dino3", "delivery"))
+
+#or by using a fancier version of rename
+old<- c("ring", "date", "dino1", "dino2", "dino3", "delivery")
+new<- c("t_ind_bague_id", "date_de_capture_sur_oeuf", "injection_1_dinolytic",
+         "injection_2_dinolytic", "injection_3_dinolytic", "type_de_ponte")
+egg.c<- egg.c %>% rename_with(~ new, all_of(old))
+```
+
+Select rows and remove NAs:
+
+```{r}
+#select coronatus and alchata from data
+ac<- data %>%
+  filter(species == "coronatus" | species == "alchata")
+
+#select first 100 rows and remove NAs from dino1
+egg100<- egg3 %>%
+    select(t_ind_bague_id, date_de_capture_sur_oeuf, injection_1_dinolytic,
+         injection_2_dinolytic, injection_3_dinolytic, type_de_ponte) %>%
+  `colnames<-`(c("ring", "date", "dino1", "dino2", "dino3", "delivery")) %>%
+  slice(1:100) %>%
+  filter(!is.na(dino1))
+
+#Again, dplyr is compatible with a lot of base R or other packages' functions
+#select first 100 rows and remove NAs from all columns
+rm(egg100)
+egg100<- egg3 %>%
+    select(t_ind_bague_id, date_de_capture_sur_oeuf, injection_1_dinolytic,
+         injection_2_dinolytic, injection_3_dinolytic, type_de_ponte) %>%
+  `colnames<-`(c("ring", "date", "dino1", "dino2", "dino3", "delivery")) %>%
+  slice(1:100) %>%
+  na.omit()
+
+#or drop_na from tidyr
+rm(egg100)
+egg100<- egg3 %>%
+    select(t_ind_bague_id, date_de_capture_sur_oeuf, injection_1_dinolytic,
+         injection_2_dinolytic, injection_3_dinolytic, type_de_ponte) %>%
+  `colnames<-`(c("ring", "date", "dino1", "dino2", "dino3", "delivery")) %>%
+  slice(1:100) %>%
+  drop_na()
+```
+
+arrange() is a convenient way to organize your dataframe
+
+```{r}
+#organize age in ascending order
+data<- data %>%
+  arrange(age)
+
+#And now in descending order
+data<- data %>%
+  arrange(desc(age))
+```
+
+✍️✍️✍️ And now let's see if you got it:
+
+```{r}
+#Create a new dataframe, selecting only females of the coronatus in data using dplyr. Call the new dataframe data.f
+###Solution
+data.f<- data %>%
+  filter(species == "coronatus", sex == "F")
+  
+#Create a new dataframe, selecting all birds younger than 1095 days OR birds older than 3285 days. find a suitable name for your new dataframe.
+###Solution
+ext.age<- data %>%
+  filter(age< 1095 | age > 3285)
+```
+
+### 2.3 Concatenate, split, and rename/replace values in a data frame
+
+Alright, so now let's see some more convenient functions, we're gonna see how to batch-manipulate values in a dataframe.
+
+Sometimes you will need to perform manipulations of the very content of cells, like replacing NAs or renaming factor levels.
+
+We're gonna work on a real-life example again, so let's load the dataset:
+
+```{r}
+cm<- read.csv("Med_cases.csv")
+```
+
+Here, you should get an error! And why is that?!
+
+Because some people did not attend my last seminar and thought that using special characters was a good idea... Well, Spoiler Alert! It's not!
+
+How do you deal with this issue? One way is of course to manually change the variable names in the csv file, but if you have a lot of silly names, that's a bit unpractical... So, luckily there is a way to tell R to ignore the fact that some people don't know how to create proper databases.
+
+```{r}
+cm<- read.csv("Med_cases.csv", check.names = FALSE)
+```
+
+✍️✍️✍️ And now, you will put in practice what we learned today 😉:
+
+✍️Step 1: You need to clean the names (you can use the janitor function)
+
+```{r}
+###Solution
+library(janitor)
+cm<- clean_names(cm)
+```
+
+✍️Step 2: select columns 1, 5 and 7 and rename them: ring, date, diag
+
+```{r}
+###Solution
+cm<- cm %>% select(t_ind_bague_id, date_saisie, diagnostic) %>%
+  `colnames<-`(c("ring", "date", "diag"))
+```
+
+✍️Step 3: convert column 3 to a factor
+
+```{r}
+###Solution
+cm$diag <- as.factor(cm$diag)
+```
+
+Alright, You have worked well, so I'll take it from there.
+
+Now, we're gonna see how to display the different levels of a factor
+
+```{r}
+levels(cm$diag)
+```
+
+Very simple isn't it?
+
+Ok, but really this is a terrible way to build a database! What are we supposed to do with that concatenated series of 10, 000 words?! And they didn't even use the same separator each time!
+
+Luckily R can fix it:
+
+Our objective is to select only bacterial cases.
+
+First we will **split** the first word of classification. We need it to be a character, so let's convert it back.
+
+```{r}
+cm$diag<- as.character(cm$diag)
+cm$infectious<- sapply(strsplit(cm$diag, ">"), '[', 1)
+```
+
+Ok, so we made a new column with either infectious of non infectious. Let's convert this column to a factor and select only the infectious cases
+
+```{r}
+levels(cm$infectious<- as.factor(cm$infectious))
+
+cm.i<- cm %>%
+  filter(infectious == "Infectious")
+```
+
+Ok, let's check our diag levels now.
+
+```{r}
+levels(as.factor(as.character(cm.i$diag)))
+```
+
+Ok, we're only interested in the Bacterial infections, which is the 3rd level. We will create a new bact column to subset
+
+```{r}
+cm.i$bact<- sapply(strsplit(cm.i$diag, ">"), '[', 3)
+levels(cm.i$bact<- as.factor(cm.i$bact))
+```
+
+And we subset
+
+```{r}
+cm.b<- cm.i %>%
+  filter(bact == "Bacteria")
+```
+
+Here, we go! We have our Bacterial cases. Now, we can change the factor names. Let's use cm.b as an example. We'll rename Bacteria "E.coli".
+
+```{r}
+#First, we need to make sure we don't have ghost levels of our original database, which often happens
+cm.b[] <- lapply(cm.b, function(x) if(is.factor(x)) factor(x) else x) #remove the "ghost" of levels "blank"
+
+cm.c <- cm.b %>%
+  mutate(bact=recode(bact, "Bacteria" = "E.coli")) #Note we used = not ==
+levels(cm.c$bact)
+```
+
+Some other times, you may want to concatenate instead of splitting string.
+
+We can do that with paste0(). Let's use data and concatenate species and sex into a new column
+
+```{r}
+data$sp_sex<- paste0(data$species, data$sex)
+```
+
+You can even add a separator
+
+```{r}
+data$sp_sex<- paste0(data$species, "_", data$sex)
+```
+
+Let's complicate things a bit: the new column must contain only the first 3 letters of species and the sex.
+
+We will use the stringr package
+
+```{r}
+library(stringr)
+data$sp_sex<- paste0(substr(data$species, 1, 3), "_", data$sex)
+```
+
+Now last info for this section: We may want to replace NAs instead of getting rid of them.
+
+Replace NAs by 0 and other entries by 1. First, we will learn a new function ifelse()
+
+```{r}
+#Replace NAs by 0 in 1 column
+egg.new<- egg2
+egg.new$dino1<- ifelse(is.na(egg.new$dino1), 0, 1)
+```
+
+If you want to replace NAs of multiple columns, you can use dplyr
+
+```{r}
+egg.new<- egg2
+egg.new<- egg.new %>%
+  mutate_at(vars(dino1, dino2, dino3), ~replace_na(., "0"))# Note that I put "" around 0 treating it like a character. Because the column is character you cannot simply convert the NAs into a 0 value
+```
+
+Now we can also combine both ifelse() and the dplyr grammar
+
+```{r}
+egg.new<- egg2
+egg.new<- egg.new %>%
+  mutate_at(vars(dino1, dino2, dino3), ~ifelse(is.na(.x), 0, 1))
+```
+
+Fancy, eh?!\
+
+### 2.4 Summarize data
+
+Ok, we've seen how to clean, change, arrange, select, subset... data. But one more important operation we need to learn is to summarize data.
+
+Summarizing often means aggregating data, i.e., grouping values and performing an operations on them such as getting the mean, SD, etc... Often, aggregating data is data analysis: descriptive statistics. That being said, you can also aggregate your data to prepare for plotting, or as an intermediate step for more data wrangling. In some cases, you may aggregate data as an intermediate step for inferential statistics.
+
+So, let's use the sandgrouse data and say we want to create a table summarizing mean, and SD of age for each sex, with sample size.
+
+As usual, multiple ways to do that, we'll see base R aggregate and the dplyr way. Base R first:
+
+```{r}
+df<- aggregate(data$age, #the variable we want to aggreagate
+              by = list(sex = data$sex), #Groups for which you want the summary statistic
+              FUN = function(x) c(mean = mean(x), sd = sd(x), n = length(x))) #you should recognize most element of the function
+df<- do.call(data.frame, df)
+colnames(df)<- c("sex", "mean", "sd", "n")
+```
+
+And now in dplyr:
+
+```{r}
+df2<- data %>%
+  group_by(sex) %>%
+  summarize(mean = mean(age), sd = sd(age), n = length(age))
+```
+
+Here, you can not 2 things: 1 the dplyr way is a bit shorter, and 2. meet function group_by(). This function groups rows by column values, you will likely use it often.
+
+We can also get a more detailed summary, of age by sex and species.
+
+```{r}
+#We can write the aggregate function the same way like before
+df3<- aggregate(data$age, #the variable we want to aggreagate
+              by = list(species = data$species, sex = data$sex), #Groups for which you want the summary statistic
+              FUN = function(x) c(mean = mean(x), sd = sd(x), n = length(x))) #you should recognize most element of the function
+df3<- do.call(data.frame, df3)
+colnames(df3)<- c("sex", "mean", "sd", "n")
+
+rm(df3)
+
+#But we can also write it as below
+df3<- aggregate(age ~ species + sex, data = data,
+              FUN = function(x) c(mean = mean(x), sd = sd(x), n = length(x))) #you should recognize most element of the function
+df3<- do.call(data.frame, df3)
+colnames(df3)<- c( "species", "sex", "mean", "sd", "n")
+```
+
+✍️✍️✍️ Now, you figure out how to do it with dplyr. Call the summary df4
+
+```{r}
+###Solution
+df4<- data %>%
+  group_by(species, sex) %>%
+  summarize(mean = mean(age), sd = sd(age), n = length(age))
+```
+
+Of course, these functions can be adapted to produce other types of descriptive statistics, like median, range... We can also add our own equations. For example you may remember that there is no convenient wrapepr to get the standard error SE = SD/SQRT(n).
+
+You can add the equation directly in the function.
+
+✍️✍️✍️ You try! Re-use the function that created df2, and add the standard error to summarize()
+
+```{r}
+###Solution
+df2<- data %>%
+  group_by(sex) %>%
+  summarize(mean = mean(age), sd = sd(age), se = sd(age)/sqrt(length(age)), n = length(age))
+```
+
+### 2.5 Date and time in R
+
+🔥🔥🔥 The code below works fine when your **OS is set to Canadian/American English,** with default date being mm/dd/YYYY. If you're computer speaks another language we may need to adapt this code somewhat. **Don't hesitate to interrupt if it doesn't work.** Of course, one other way is to set the language and zone to English/American (or Canadian). 🔥🔥🔥
+
+When you import a data set, your dates or date_time columns are usually imported as character, but this string are easily coerced to a date object, notably as a Date object (date without time), or POSIXct (storage as an integer) or POSIXlt (storage as a list), both POSIX being date-time object, dealing with local time zones. In general, R will store dates internally as the number of day or seconds since a reference date.
+
+```{r}
+#We won't spend too much time dissecting dates and time, but you can check for yourself
+d<-as.Date("2023/06/28")
+unclass(d)
+
+d2<- as.Date("1945/05/08")
+unclass(d2)
+
+epoch<- as.Date("1970/01/01")
+unclass(epoch)
+#Yup, that's the reference! Here is an explanation, fun fact:
+#https://stackoverflow.com/questions/1090869/why-is-1-1-1970-the-epoch-time
+```
+
+The standard format for dates in R is YYYY-MM-DD (as it should be for every science project!). But if your date is in a different format, it's Ok, you just need to tell R, by spelling out the format:
+
+```{r}
+#Example: Remember, remember, the 5th of November... In a dd/mm/YYYY format
+d.atyp<- as.Date("05/11/1605", format = "%d/%m/%Y")
+
+#or in a mm-dd-YYYY format
+d.atyp2<- as.Date("11-05-1605", format = "%m-%d-%Y")
+```
+
+Here is a list of code for different classic date formats, you can play with it, later if you want:
+
+**%d:** decimal day of the month (classic)
+
+**%m:** decimal month of the year
+
+**%Y:** 4-digit Year **%y**: 2-digit year
+
+**%b:** abbreviated month (e.g., Nov) **%B:** full month (e.g., November)
+
+R has several options for working with dates and time, including some powerful packages like lubridate. We will see a couple methods.
+
+You just saw the as.Date() function from base R, but in a dataframe I would recommend using POSIXct
+
+Let's get back to our sandgrouse data set:
+
+```{r}
+#Make sure your dates are characters and not factors
+data$dateborn<- as.POSIXct(strptime(data[,"dateborn"], "%m/%d/%Y", tz = "Africa/Casablanca"))
+```
+
+Or you can use the lubridate package in combination with dplyr
+
+```{r}
+library(lubridate) #package specifically designed to handle date and time in R
+data <- data %>%
+  mutate(dateout = lubridate::mdy(dateout)) # the famous mutate function which means you're converting something in the dataframe you called before the pipe
+```
+
+Alright, now time. We'll load the fox_AB17 data set (which is a subset from Warret-Rodrigues & Roth (2023) dataset at <https://datadryad.org/stash/dataset/doi:10.5061/dryad.r7sqv9shp>). That dataset contains dates and time associated with telemetry data from a red foxe. So, a real-life data set still, about furry rather than feathery critters.
+
+```{r}
+fox<- read.csv("fox_AB17.csv")
+```
+
+This data set will allow us to practice a couple things we saw today. Let's start with looking at the structure
+
+```{r}
+str(fox)
+```
+
+Date and time are characters but they're separated and we want them concatenated. Easy:
+
+```{r}
+fox$DateTime<- paste0(fox$date, " ", fox$time)
+str(fox)
+```
+
+Awesome! Now we can convert date time
+
+```{r}
+fox$DateTime<- as.POSIXct(strptime(fox[,"DateTime"], format = "%Y-%m-%d %H:%M", tz = "UTC"))
+```
+
+## Part 3: Practice case
+
+1.Load the Incubation data set and inspect the structure. Make sure all columns are in the desired format, otherwise convert them.
+
+```{r}
+###Solution
+inc.r<- read.csv("Incubation.csv")
+str(inc.r)
+inc.r <- as.data.frame(unclass(inc.r), # Convert all character columns to factor
+                    stringsAsFactors = TRUE)
+```
+
+2.Select columns 1, and 3 to 5 and rename them with R-friendly names
+
+```{r}
+###Solution
+inc <- inc.r[c(1,3:5)]
+inc <- inc %>% `colnames<-`(c("ring", "status", "perc_wl", "process"))
+```
+
+3.Create a new dataframe selecting only the process dry and process wet levels
+
+```{r}
+###Solution
+levels(inc$process)
+inc.n<- inc %>%
+  filter(process %in% c("Dry", "Wet"))
+#or
+inc.n<- inc[inc$process %in% c("Dry", "Wet"),]
+```
+
+4\. Make a new dataframe summarizing the perc_wl: get the mean, se, and n of perc_wl by status (Normal vs Prolapse) and process (Dry vs Wet) using dplyr
+
+```{r}
+###Solution
+df.sum<- inc.n %>%
+  group_by(status, process) %>%
+  summarize(mean = mean(perc_wl), se = sd(perc_wl)/sqrt(length(perc_wl)), 
+            n = length(perc_wl))
+```
+
+And to finish this session, a little extra: I want you to convert the date time column date from egg.new. Notice the format of time! we have decimal seconds. I want you to Google what the code for decimal second is in R.
+
+```{r}
+###Solution
+egg.new$date <- as.POSIXct(strptime(egg.new$date, "%Y-%m-%d %H:%M:%OS", tz = "GMT")) #Note that OS is for fractional seconds
+
+```
